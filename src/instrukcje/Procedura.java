@@ -10,12 +10,11 @@ import wyrazenia.Zmienna;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class DeklaracjaProcedury extends Deklaracja {
+public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     private char nazwa;
     private ArrayList<Wyrazenie> parametry;
     private ArrayList<DeklaracjaZmiennej> deklaracjeZmiennych;
     private ArrayList<Instrukcja> instrukcje;
-
     @Override
     protected String wypisz(int liczbaTabow) {
         return null;
@@ -34,5 +33,10 @@ public class DeklaracjaProcedury extends Deklaracja {
     @Override
     protected void policzInstrukcjeWProgramie(Stack<Zmienna[]> stosZmiennych, Stack<Integer[]> stosPoziomow, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
 
+    }
+
+    @Override
+    public Zmienna getWartoscZmiennej(char nazwa, Stack<Zmienna[]> stosZmiennych, Stack<Integer[]> stosPoziomow) throws NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
+        return ModyfikacjaZmiennych.super.getWartoscZmiennej(nazwa, stosZmiennych, stosPoziomow);
     }
 }
