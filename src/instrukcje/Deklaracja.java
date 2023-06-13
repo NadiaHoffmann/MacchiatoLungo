@@ -1,2 +1,4 @@
-package instrukcje;public class Deklaracja {
+package instrukcje;
+
+public abstract class Deklaracja extends Instrukcja {
 }

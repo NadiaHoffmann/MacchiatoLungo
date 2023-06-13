@@ -9,7 +9,7 @@ import wyrazenia.Zmienna;
 
 import java.util.Stack;
 
-public class DeklaracjaZmiennej extends Instrukcja implements ModyfikacjaZmiennych {
+public class DeklaracjaZmiennej extends Deklaracja implements ModyfikacjaZmiennych {
     private final char nazwa;
     private Wyrazenie wyrazenie;
 
