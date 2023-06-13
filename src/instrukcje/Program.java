@@ -12,6 +12,8 @@ import java.util.Stack;
 public class Program {
     private Blok glowny;
     private Stack <Zmienna[]> stosZmiennych;
+
+    private Stack<Procedura[]> stosProcedur;
     private Stack <Integer[]> stosPoziomow;
 
     public Program(ArrayList<DeklaracjaZmiennej> deklaracjeZmiennych, ArrayList<Instrukcja> instrukcje) {
@@ -22,6 +24,7 @@ public class Program {
         try {
             this.stosZmiennych = new Stack<>();
             this.stosPoziomow = new Stack<>();
+            this.stosProcedur = new Stack<>();
             glowny.wykonaj(stosZmiennych, stosPoziomow);
         }
         catch (NiepoprawnaWartoscZmiennej e) {
