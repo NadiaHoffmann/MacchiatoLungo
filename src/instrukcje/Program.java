@@ -25,7 +25,7 @@ public class Program {
             this.stosZmiennych = new Stack<>();
             this.stosPoziomow = new Stack<>();
             this.stosProcedur = new Stack<>();
-            glowny.wykonaj(stosZmiennych, stosPoziomow);
+            glowny.wykonaj(stosZmiennych, stosProcedur, stosPoziomow);
         }
         catch (NiepoprawnaWartoscZmiennej e) {
             System.out.println("Niepoprawna wartosc zmiennej w wyrazeniu " + e.getWyrazenie() + ".");
@@ -52,13 +52,14 @@ public class Program {
     public void wykonajZOdpluskwiaczem() {
         try {
             this.stosZmiennych = new Stack<>();
+            this.stosProcedur = new Stack<>();
             this.stosPoziomow = new Stack<>();
             Odpluskwiacz odpluskwiacz = new Odpluskwiacz();
 
             // policzInstrukcjeWProgramie wykonuje program, liczac kolejne kroki
-            glowny.policzInstrukcjeWProgramie(stosZmiennych, stosPoziomow, odpluskwiacz);
+            glowny.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
             odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
-            glowny.wykonajZOdpluskwiaczem(stosZmiennych, stosPoziomow, odpluskwiacz);
+            glowny.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
         }
         catch (NiepoprawnaWartoscZmiennej e) {
             System.out.println("Niepoprawna wartosc zmiennej w wyrazeniu " + e.getWyrazenie() + ".");
