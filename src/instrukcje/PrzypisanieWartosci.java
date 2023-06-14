@@ -24,30 +24,30 @@ public class PrzypisanieWartosci extends Instrukcja implements ModyfikacjaZmienn
     }
 
     @Override
-    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow) throws NiezadeklarowanaZmienna, NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej {
+    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur) throws NiezadeklarowanaZmienna, NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej {
         int nazwaJakoIndeks = this.nazwa - 'a';
         if (nazwaJakoIndeks < ('a' - 'a') || nazwaJakoIndeks >= ('z' - 'a' + 1)) {
             throw new NiepoprawnaNazwaZmiennej(this.nazwa);
         }
 
-        Zmienna zmienna = this.getWartoscZmiennej(this.nazwa, stosZmiennych, stosPoziomow);
+        Zmienna zmienna = this.getWartoscZmiennej(this.nazwa, stosZmiennych, stosPoziomowZmiennych);
 
         if (zmienna == null) {
             throw new NiezadeklarowanaZmienna(this.nazwa);
         }
         else {
-            zmienna.setWartosc(this.wyrazenie.wartosc(stosZmiennych, stosPoziomow));
-            stosPoziomow.elementAt(0)[nazwaJakoIndeks] = 0;
+            zmienna.setWartosc(this.wyrazenie.wartosc(stosZmiennych, stosPoziomowZmiennych));
+            stosPoziomowZmiennych.elementAt(0)[nazwaJakoIndeks] = 0;
         }
     }
 
     @Override
-    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow, Odpluskwiacz odpluskwiacz) throws NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, NiepoprawnaWartoscZmiennej {
-        this.wykonaj(stosZmiennych, stosProcedur, stosPoziomow);
+    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz) throws NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, NiepoprawnaWartoscZmiennej {
+        this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
     }
 
     @Override
-    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow, Odpluskwiacz odpluskwiacz) throws NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna {
-        this.wykonaj(stosZmiennych, stosProcedur, stosPoziomow);
+    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz) throws NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna {
+        this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
     }
 }

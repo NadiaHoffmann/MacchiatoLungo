@@ -53,49 +53,49 @@ public class InstrukcjaIf extends Instrukcja {
     }
 
     @Override
-    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow) throws NiepoprawnaWartoscZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
-        if (porownanie.ewaluuj(stosZmiennych, stosPoziomow)) {
+    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur) throws NiepoprawnaWartoscZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
+        if (porownanie.ewaluuj(stosZmiennych, stosPoziomowZmiennych)) {
             for (Instrukcja i : instrukcjeIf) {
-                i.wykonaj(stosZmiennych, stosProcedur, stosPoziomow);
+                i.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
             }
         }
         else if (instrukcjeElse != null) {
             for (Instrukcja i : instrukcjeElse) {
-                i.wykonaj(stosZmiennych, stosProcedur, stosPoziomow);
+                i.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
             }
         }
     }
 
     @Override
-    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana {
-        if (porownanie.ewaluuj(stosZmiennych, stosPoziomow)) {
+    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana {
+        if (porownanie.ewaluuj(stosZmiennych, stosPoziomowZmiennych)) {
             for (Instrukcja i : instrukcjeIf) {
-                odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomow, i);
+                odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomowZmiennych, i);
                 odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
-                i.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+                i.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
             }
         }
         else if (instrukcjeElse != null) {
             for (Instrukcja i : instrukcjeElse) {
-                odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomow, i);
+                odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomowZmiennych, i);
                 odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
-                i.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+                i.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
             }
         }
     }
 
     @Override
-    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow, Odpluskwiacz odpluskwiacz) throws NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna {
-        if (porownanie.ewaluuj(stosZmiennych, stosPoziomow)) {
+    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz) throws NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna {
+        if (porownanie.ewaluuj(stosZmiennych, stosPoziomowZmiennych)) {
             for (Instrukcja i : instrukcjeIf) {
                 odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
-                i.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+                i.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
             }
         }
         else if (instrukcjeElse != null) {
             for (Instrukcja i : instrukcjeElse) {
                 odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
-                i.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+                i.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
             }
         }
     }

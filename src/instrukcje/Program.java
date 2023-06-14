@@ -14,7 +14,9 @@ public class Program {
     private Stack <Zmienna[]> stosZmiennych;
 
     private Stack<Procedura[]> stosProcedur;
-    private Stack <Integer[]> stosPoziomow;
+    private Stack <Integer[]> stosPoziomowZmiennych;
+
+    private Stack <Integer[]> stosPoziomowProcedur;
 
     public Program(ArrayList<DeklaracjaZmiennej> deklaracjeZmiennych, ArrayList<Instrukcja> instrukcje) {
         this.glowny = new Blok(deklaracjeZmiennych, instrukcje);
@@ -23,28 +25,29 @@ public class Program {
     public void wykonaj() {
         try {
             this.stosZmiennych = new Stack<>();
-            this.stosPoziomow = new Stack<>();
+            this.stosPoziomowZmiennych = new Stack<>();
+            this.stosPoziomowProcedur = new Stack<>();
             this.stosProcedur = new Stack<>();
-            glowny.wykonaj(stosZmiennych, stosProcedur, stosPoziomow);
+            glowny.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
         }
         catch (NiepoprawnaWartoscZmiennej e) {
             System.out.println("Niepoprawna wartosc zmiennej w wyrazeniu " + e.getWyrazenie() + ".");
-            this.wypiszZmienne(stosZmiennych, stosPoziomow);
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         }
          catch (ZmiennaJuzZadeklarowana e) {
              System.out.println("Zmienna " + e.getNazwa() + " juz zostala zadeklarowana.");
-             this.wypiszZmienne(stosZmiennych, stosPoziomow);
+             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
              System.exit(1);
          }
         catch (NiezadeklarowanaZmienna e) {
             System.out.println("Zmienna " + e.getNazwa() + " nie zostala zadeklarowana.");
-            this.wypiszZmienne(stosZmiennych, stosPoziomow);
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         }
         catch (NiepoprawnaNazwaZmiennej e) {
             System.out.println("Nazwa " + e.getNazwa() + " jest niepoprawna. Poprawne nazwy to male litery od a do z.");
-            this.wypiszZmienne(stosZmiennych, stosPoziomow);
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         }
     };
@@ -53,32 +56,33 @@ public class Program {
         try {
             this.stosZmiennych = new Stack<>();
             this.stosProcedur = new Stack<>();
-            this.stosPoziomow = new Stack<>();
+            this.stosPoziomowZmiennych = new Stack<>();
+            this.stosPoziomowProcedur = new Stack<>();
             Odpluskwiacz odpluskwiacz = new Odpluskwiacz();
 
             // policzInstrukcjeWProgramie wykonuje program, liczac kolejne kroki
-            glowny.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+            glowny.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
             odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
-            glowny.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+            glowny.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
         }
         catch (NiepoprawnaWartoscZmiennej e) {
             System.out.println("Niepoprawna wartosc zmiennej w wyrazeniu " + e.getWyrazenie() + ".");
-            this.wypiszZmienne(stosZmiennych, stosPoziomow);
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         }
         catch (ZmiennaJuzZadeklarowana e) {
             System.out.println("Zmienna " + e.getNazwa() + " juz zostala zadeklarowana.");
-            this.wypiszZmienne(stosZmiennych, stosPoziomow);
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         }
         catch (NiezadeklarowanaZmienna e) {
             System.out.println("Zmienna " + e.getNazwa() + " nie zostala zadeklarowana.");
-            this.wypiszZmienne(stosZmiennych, stosPoziomow);
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         }
         catch (NiepoprawnaNazwaZmiennej e) {
             System.out.println("Nazwa " + e.getNazwa() + " jest niepoprawna. Poprawne nazwy to male litery od a do z.");
-            this.wypiszZmienne(stosZmiennych, stosPoziomow);
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         }
     }

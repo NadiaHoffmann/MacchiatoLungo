@@ -39,8 +39,8 @@ public class PetlaFor extends Instrukcja {
     }
 
     @Override
-    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow) throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej {
-        int granica = wyrazenie.wartosc(stosZmiennych, stosPoziomow);
+    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur) throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej {
+        int granica = wyrazenie.wartosc(stosZmiennych, stosPoziomowZmiennych);
         for (int i = 0; i < granica; i++) {
             ArrayList<DeklaracjaZmiennej> deklaracjaZmiennej = new ArrayList<>();
             ArrayList<DeklaracjaZmiennej> ukrytaDeklaracjaZmiennej = new ArrayList<>();
@@ -48,13 +48,13 @@ public class PetlaFor extends Instrukcja {
 
             ukrytaDeklaracjaZmiennej.add(zmiennaWPetli);
             Blok blok = new Blok(deklaracjaZmiennej, ukrytaDeklaracjaZmiennej, instrukcje);
-            blok.wykonaj(stosZmiennych, stosProcedur, stosPoziomow);
+            blok.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
         }
     }
 
     @Override
-    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
-        this.granica = wyrazenie.wartosc(stosZmiennych, stosPoziomow);
+    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
+        this.granica = wyrazenie.wartosc(stosZmiennych, stosPoziomowZmiennych);
         for (int i = 0; i < this.granica; i++) {
             ArrayList<DeklaracjaZmiennej> deklaracjaZmiennej = new ArrayList<>();
             ArrayList<DeklaracjaZmiennej> ukrytaDeklaracjaZmiennej = new ArrayList<>();
@@ -62,14 +62,14 @@ public class PetlaFor extends Instrukcja {
 
             ukrytaDeklaracjaZmiennej.add(zmiennaWPetli);
             Blok blok = new Blok(deklaracjaZmiennej, ukrytaDeklaracjaZmiennej, instrukcje);
-            blok.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+            blok.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
         }
     }
 
 
     @Override
-    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
-        this.granica = wyrazenie.wartosc(stosZmiennych, stosPoziomow);
+    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
+        this.granica = wyrazenie.wartosc(stosZmiennych, stosPoziomowZmiennych);
         for (int i = 0; i < this.granica; i++) {
             ArrayList<DeklaracjaZmiennej> deklaracjaZmiennej = new ArrayList<>();
             ArrayList<DeklaracjaZmiennej> ukrytaDeklaracjaZmiennej = new ArrayList<>();
@@ -77,7 +77,7 @@ public class PetlaFor extends Instrukcja {
 
             ukrytaDeklaracjaZmiennej.add(zmiennaWPetli);
             Blok blok = new Blok(deklaracjaZmiennej, ukrytaDeklaracjaZmiennej, instrukcje);
-            blok.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+            blok.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
         }
     }
 }

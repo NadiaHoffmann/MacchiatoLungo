@@ -60,66 +60,66 @@ public class Blok extends Instrukcja {
     }
 
     @Override
-    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack <Integer[]> stosPoziomow, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
-        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomow);
+    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
+        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
 
         for (DeklaracjaZmiennej dz : deklaracjeZmiennych) {
             odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
-            dz.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+            dz.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
         }
 
         for (Instrukcja i : instrukcje) {
             odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
-            i.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+            i.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
         }
 
         stosZmiennych.pop();
-        stosPoziomow.pop();
+        stosPoziomowZmiennych.pop();
     }
 
     @Override
-    protected void wykonaj(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow) throws NiepoprawnaWartoscZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
-        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomow);
+    protected void wykonaj(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur) throws NiepoprawnaWartoscZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
+        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
 
         for (DeklaracjaZmiennej dz : deklaracjeZmiennych) {
-            dz.wykonaj(stosZmiennych, stosProcedur, stosPoziomow);
+            dz.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
         }
 
         for (Instrukcja i : instrukcje) {
-            i.wykonaj(stosZmiennych, stosProcedur, stosPoziomow);
+            i.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
         }
         stosZmiennych.pop();
-        stosPoziomow.pop();
+        stosPoziomowZmiennych.pop();
     }
 
     @Override
-    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana {
-        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomow);
+    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana {
+        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
 
         for (DeklaracjaZmiennej dz : deklaracjeZmiennych) {
-            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomow, dz);
+            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomowZmiennych, dz);
             odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
-            dz.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+            dz.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
         }
 
 
         for (Instrukcja instrukcja : instrukcje) {
-            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomow, instrukcja);
+            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomowZmiennych, instrukcja);
             odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
-            instrukcja.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomow, odpluskwiacz);
+            instrukcja.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
         }
 
         stosZmiennych.pop();
-        stosPoziomow.pop();
+        stosPoziomowZmiennych.pop();
     }
 
     // czesc wspolna dla trzech powyzszych komend
-    private void czescWspolna(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
+    private void czescWspolna(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmienych, Stack<Integer[]> stosPoziomowProcedur) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
         this.zmienneZBloku = new Zmienna['z' - 'a' + 1];
         this.proceduryZBloku = new Procedura['z' - 'a' + 1];
         this.poziomZmiennych = new Integer['z' - 'a' + 1];
 
-        if (stosPoziomow.empty()) {
+        if (stosPoziomowZmienych.empty()) {
             Arrays.fill(this.poziomZmiennych, -1);
             for (int i = 0; i < ('z' -'a' + 1); i++) {
                 char nazwa = (char) ('a' + i);
@@ -131,7 +131,7 @@ public class Blok extends Instrukcja {
             }
         }
         else {
-            Integer[] poprzedniPoziom = stosPoziomow.peek();
+            Integer[] poprzedniPoziom = stosPoziomowZmienych.peek();
             Zmienna[] poprzednieZmienne = stosZmiennych.peek();
 
             for (int i = 0; i < ('z' - 'a' + 1); i++) {
@@ -149,10 +149,10 @@ public class Blok extends Instrukcja {
         }
 
         stosZmiennych.push(zmienneZBloku);
-        stosPoziomow.push(poziomZmiennych);
+        stosPoziomowZmienych.push(poziomZmiennych);
 
         for (DeklaracjaZmiennej dz : ukryteDeklaracjeZmiennych) {
-            dz.wykonaj(stosZmiennych, stosProcedur, stosPoziomow);
+            dz.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmienych, stosPoziomowProcedur);
         }
     }
 }
