@@ -13,11 +13,18 @@ import java.util.Stack;
 public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     private char nazwa;
     private ArrayList<Wyrazenie> parametry;
-    private ArrayList<DeklaracjaZmiennej> deklaracjeZmiennych;
+    private ArrayList<Deklaracja> deklaracje;
     private ArrayList<Instrukcja> instrukcje;
 
     public Procedura(char nazwa) {
         this.nazwa = nazwa;
+    }
+
+    protected Procedura(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+        this.nazwa = nazwa;
+        this.parametry = parametry;
+        this.deklaracje = deklaracje;
+        this.instrukcje = instrukcje;
     }
 
     @Override

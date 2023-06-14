@@ -38,11 +38,11 @@ public class Zmienna extends Wyrazenie implements ModyfikacjaZmiennych {
     }
 
     @Override
-    public Zmienna getWartoscZmiennej(char nazwa, Stack<Zmienna[]> stosZmiennych, Stack<Integer[]> stosPoziomow) throws NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
+    public Zmienna getWartoscZmiennej(char nazwa, Stack<Zmienna[]> stosZmiennych, Stack<Integer[]> stosPoziomowZmiennych) throws NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
         if (nazwa < 'a' || nazwa > 'z') {
             throw new NiepoprawnaNazwaZmiennej(this.nazwa);
         }
-        return ModyfikacjaZmiennych.super.getWartoscZmiennej(nazwa, stosZmiennych, stosPoziomow);
+        return ModyfikacjaZmiennych.super.getWartoscZmiennej(nazwa, stosZmiennych, stosPoziomowZmiennych);
     }
 
     @Override
