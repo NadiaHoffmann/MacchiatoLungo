@@ -15,6 +15,11 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     private ArrayList<Wyrazenie> parametry;
     private ArrayList<DeklaracjaZmiennej> deklaracjeZmiennych;
     private ArrayList<Instrukcja> instrukcje;
+
+    public Procedura(char nazwa) {
+        this.nazwa = nazwa;
+    }
+
     @Override
     protected String wypisz(int liczbaTabow) {
         return null;

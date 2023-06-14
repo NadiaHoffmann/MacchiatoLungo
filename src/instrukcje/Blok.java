@@ -13,6 +13,8 @@ import java.util.Stack;
 public class Blok extends Instrukcja {
     private Zmienna[] zmienneZBloku;
     private Integer[] poziomZmiennych;
+    private Procedura[] proceduryZBloku;
+    private Integer[] poziomProcedur;
 
     private ArrayList<Instrukcja> instrukcje;
     private ArrayList<DeklaracjaZmiennej> deklaracjeZmiennych;
@@ -114,6 +116,7 @@ public class Blok extends Instrukcja {
     // czesc wspolna dla trzech powyzszych komend
     private void czescWspolna(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomow) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
         this.zmienneZBloku = new Zmienna['z' - 'a' + 1];
+        this.proceduryZBloku = new Procedura['z' - 'a' + 1];
         this.poziomZmiennych = new Integer['z' - 'a' + 1];
 
         if (stosPoziomow.empty()) {
@@ -121,6 +124,10 @@ public class Blok extends Instrukcja {
             for (int i = 0; i < ('z' -'a' + 1); i++) {
                 char nazwa = (char) ('a' + i);
                 zmienneZBloku[i] = new Zmienna(nazwa);
+            }
+            for (int i = 0; i < ('z' -'a' + 1); i++) {
+                char nazwa = (char) ('a' + i);
+                proceduryZBloku[i] = new Procedura(nazwa);
             }
         }
         else {
