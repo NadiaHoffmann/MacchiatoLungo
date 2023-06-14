@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<DeklaracjaZmiennej> deklaracje1 = new ArrayList<>();
+        ArrayList<Deklaracja> deklaracje1 = new ArrayList<>();
         deklaracje1.add(new DeklaracjaZmiennej('n', new Literal(30)));
         ArrayList<Instrukcja> instrukcje1 = new ArrayList<>();
-        ArrayList<DeklaracjaZmiennej> deklaracje2 = new ArrayList<>();
+        ArrayList<Deklaracja> deklaracje2 = new ArrayList<>();
         deklaracje2.add(new DeklaracjaZmiennej('p', new Literal(1)));
         ArrayList<Instrukcja> instrukcje2 = new ArrayList<>();
         instrukcje2.add(new PrzypisanieWartosci('k', new Dodawanie(new Zmienna('k'), new Literal(2))));

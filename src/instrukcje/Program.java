@@ -18,8 +18,8 @@ public class Program {
 
     private Stack <Integer[]> stosPoziomowProcedur;
 
-    public Program(ArrayList<DeklaracjaZmiennej> deklaracjeZmiennych, ArrayList<Instrukcja> instrukcje) {
-        this.glowny = new Blok(deklaracjeZmiennych, instrukcje);
+    public Program(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+        this.glowny = new Blok(deklaracje, instrukcje);
     }
 
     public void wykonaj() {
