@@ -101,14 +101,14 @@ public class Blok extends Instrukcja {
         this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
 
         for (Deklaracja dz : deklaracje) {
-            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomowZmiennych, dz);
+            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, dz);
             odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
             dz.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
         }
 
 
         for (Instrukcja instrukcja : instrukcje) {
-            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomowZmiennych, instrukcja);
+            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
             odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
             instrukcja.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
         }

@@ -38,7 +38,7 @@ public class Odpluskwiacz {
         this.liczbaKrokow = licznik;
     }
 
-    protected void puscOdpluskwiacz(Stack<Zmienna[]> stosZmiennych, Stack<Integer[]> stosPoziomow, Instrukcja instrukcja) {
+    protected void puscOdpluskwiacz(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Instrukcja instrukcja) {
         char obecnaInstrukcjaDebuggera = this.instrukcjaDebuggera;
 
         try {
@@ -113,10 +113,10 @@ public class Odpluskwiacz {
                         } catch (NumberFormatException e) {
                             throw new NiepoprawnyPoziom(daneWejsciowe);
                         }
-                        if (liczbaPoziomow >= stosPoziomow.size()) {
+                        if (liczbaPoziomow >= stosPoziomowZmiennych.size()) {
                             throw new NiepoprawnyPoziom(String.valueOf(liczbaPoziomow));
                         } else {
-                            Integer[] poziomyZmiennychZPoziomu = stosPoziomow.elementAt(liczbaPoziomow);
+                            Integer[] poziomyZmiennychZPoziomu = stosPoziomowZmiennych.elementAt(liczbaPoziomow);
                             Zmienna[] tablicaZmiennychZPoziomu = stosZmiennych.elementAt(liczbaPoziomow);
                             String widoczneZmienne = "";
                             for (int znak = 0; znak < ('z' - 'a' + 1); znak++) {
@@ -138,13 +138,16 @@ public class Odpluskwiacz {
 
                             this.ustawLicznik(-1);
                             this.ustawInstrukcjeDebugera('.');
-                            this.puscOdpluskwiacz(stosZmiennych, stosPoziomow, instrukcja);
+                            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
                         }
+                    }
+                    case 'm' -> {
+
                     }
                     default -> {
                         System.out.println(znakInstrukcji + " nie jest poprawna instrukcja odpluskwiacza.");
                         System.out.println("Dostepne instrukcje: c(ontinue), s(tep) <liczba>, d(isplay) <liczba>, e(xit).");
-                        this.puscOdpluskwiacz(stosZmiennych, stosPoziomow, instrukcja);
+                        this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
                     }
                 }
             }
@@ -152,17 +155,17 @@ public class Odpluskwiacz {
         catch (PustaKomenda e) {
             System.out.println("Nie zostala wpisana zadna komenda.");
             System.out.println("Dostepne instrukcje: c(ontinue), s(tep) <liczba>, d(isplay) <liczba>, e(xit).");
-            this.puscOdpluskwiacz(stosZmiennych, stosPoziomow, instrukcja);
+            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
         }
         catch (NiepoprawnaLiczbaKrokow e) {
             System.out.println(e.getLiczba() + " nie jest poprawna liczba krokow.");
             System.out.println("Poprawna liczba krokow jest wieksza od 0.");
-            this.puscOdpluskwiacz(stosZmiennych, stosPoziomow, instrukcja);
+            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
         }
         catch (NiepoprawnyPoziom e) {
             System.out.println(e.getLiczba() + " nie jest poprawnym poziomem.");
-            System.out.println("Poprawny poziom jest wiekszy rowny 0 i mniejszy od " + stosPoziomow.size() + ".");
-            this.puscOdpluskwiacz(stosZmiennych, stosPoziomow, instrukcja);
+            System.out.println("Poprawny poziom jest wiekszy rowny 0 i mniejszy od " + stosPoziomowZmiennych.size() + ".");
+            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
         }
 
     }
