@@ -205,7 +205,7 @@ public class Odpluskwiacz {
                             zapisywacz.close();
                         }
                         catch (IOException e) {
-                            System.out.println("Zapis do pliku " + daneWejsciowe + " nie powiódł się.");
+                            System.out.println("Zapis do pliku " + sciezkaPliku + " nie powiódł się.");
                         }
 
                         this.ustawLicznik(-1);
