@@ -1,9 +1,6 @@
 package instrukcje;
 
-import wyjatki.NiepoprawnaNazwaZmiennej;
-import wyjatki.NiezadeklarowanaZmienna;
-import wyjatki.ZmiennaJuzZadeklarowana;
-import wyjatki.NiepoprawnaWartoscZmiennej;
+import wyjatki.*;
 import wyrazenia.Zmienna;
 
 import java.util.ArrayList;
@@ -49,6 +46,14 @@ public class Program {
             System.out.println("Nazwa " + e.getNazwa() + " jest niepoprawna. Poprawne nazwy to male litery od a do z.");
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
+        } catch (NiepoprawnaNazwaProcedury e) {
+            System.out.println("Nazwa " + e.getNazwa() + " jest niepoprawna nazwa procedury. Poprawne nazwy to male litery od a do z.");
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
+            System.exit(1);
+        } catch (ProceduraJuzZadeklarowana e) {
+            System.out.println("Procedura " + e.getNazwa() + " już została zadeklarowana.");
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
+            System.exit(1);
         }
     };
 
@@ -81,7 +86,15 @@ public class Program {
             System.exit(1);
         }
         catch (NiepoprawnaNazwaZmiennej e) {
-            System.out.println("Nazwa " + e.getNazwa() + " jest niepoprawna. Poprawne nazwy to male litery od a do z.");
+            System.out.println("Nazwa " + e.getNazwa() + " jest niepoprawna nazwa zmiennej. Poprawne nazwy to male litery od a do z.");
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
+            System.exit(1);
+        } catch (NiepoprawnaNazwaProcedury e) {
+            System.out.println("Nazwa " + e.getNazwa() + " jest niepoprawna nazwa procedury. Poprawne nazwy to male litery od a do z.");
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
+            System.exit(1);
+        } catch (ProceduraJuzZadeklarowana e) {
+            System.out.println("Procedura " + e.getNazwa() + " już została zadeklarowana.");
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         }

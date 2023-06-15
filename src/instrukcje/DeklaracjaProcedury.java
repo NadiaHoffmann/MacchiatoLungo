@@ -26,7 +26,7 @@ public class DeklaracjaProcedury extends Deklaracja {
         for (int i = 0; i < liczbaTabow; i++) {
             tab += '\t';
         }
-        String tekstProcedury = tab + "begin procedura " + nazwa + "\n";
+        String tekstProcedury = tab + "begin procedura " + nazwa + "(" + parametry + ")\n";
         tab += '\t';
         for (Deklaracja dz : this.deklaracje) {
             tekstProcedury += tab;
@@ -61,7 +61,6 @@ public class DeklaracjaProcedury extends Deklaracja {
             stosPoziomowProcedur.push(poziomyProcedur);
             stosProcedur.push(tablicaProcedurZBloku);
             tablicaProcedurZBloku[nazwaJakoIndeks] = new Procedura(nazwa, parametry, deklaracje, instrukcje);
-            // tablicaProcedurZBloku[nazwaJakoIndeks].setWartosc(wyrazenie.wartosc(stosZmiennych, stosPoziomowZmiennych));
             stosPoziomowProcedur.pop();
             stosProcedur.pop();
             poziomyProcedur[nazwaJakoIndeks] = 0;
