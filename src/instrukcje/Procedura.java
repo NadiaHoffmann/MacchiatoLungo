@@ -10,7 +10,9 @@ import java.util.Stack;
 
 public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     private char nazwa;
-    private ArrayList<Wyrazenie> parametry;
+    private ArrayList<Zmienna> parametryZdefiniowane;
+    private ArrayList<Wyrazenie> parametryPrzekazane;
+    private ArrayList<Integer> wartosciParametrow;
     private ArrayList<Deklaracja> deklaracje;
     private ArrayList<Instrukcja> instrukcje;
 
@@ -18,6 +20,7 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     private Integer[] poziomZmiennych;
     private Procedura[] proceduryZProcedury;
     private Integer[] poziomProcedur;
+    private Zmienna[] tablicaParametrow;
 
     public Procedura(char nazwa) {
         this.nazwa = nazwa;
@@ -25,14 +28,14 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
 
     protected Procedura(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         this.nazwa = nazwa;
-        this.parametry = parametry;
+        this.parametryPrzekazane = parametry;
         this.deklaracje = deklaracje;
         this.instrukcje = instrukcje;
     }
 
     public Procedura(char nazwa, ArrayList<Wyrazenie> parametry) {
         this.nazwa = nazwa;
-        this.parametry = parametry;
+        this.parametryPrzekazane = parametry;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
         for (int i = 0; i < liczbaTabow; i++) {
             tab += '\t';
         }
-        String tekstProcedury = tab + "begin procedura " + nazwa + "(" + parametry + ")\n";
+        String tekstProcedury = tab + "begin procedura " + nazwa + "(" + parametryPrzekazane + ")\n";
         tab += '\t';
         for (Deklaracja dz : this.deklaracje) {
             tekstProcedury += tab;
@@ -61,20 +64,65 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
 
     @Override
     protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur)
-            throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej {
+            throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, NiezadeklarowanaProcedura, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana {
+        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
 
+        for (Deklaracja dz : deklaracje) {
+            dz.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
+        }
+
+        for (Instrukcja i : instrukcje) {
+            i.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
+        }
+        stosZmiennych.pop();
+        stosPoziomowZmiennych.pop();
+        stosProcedur.pop();
+        stosPoziomowProcedur.pop();
     }
 
     @Override
     protected void wykonajZOdpluskwiaczem(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz)
-            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana {
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana {
+        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
 
+        for (Deklaracja dz : deklaracje) {
+            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomowZmiennych, dz);
+            odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
+            dz.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
+        }
+
+
+        for (Instrukcja instrukcja : instrukcje) {
+            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosPoziomowZmiennych, instrukcja);
+            odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
+            instrukcja.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
+        }
+
+        stosZmiennych.pop();
+        stosPoziomowZmiennych.pop();
+        stosProcedur.pop();
+        stosPoziomowProcedur.pop();
     }
 
     @Override
     protected void policzInstrukcjeWProgramie(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz)
-            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
+        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
 
+        for (Deklaracja dz : deklaracje) {
+            odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
+            dz.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
+        }
+
+        for (Instrukcja i : instrukcje) {
+            odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
+            i.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
+        }
+
+        stosZmiennych.pop();
+        stosPoziomowZmiennych.pop();
+        stosProcedur.pop();
+        stosPoziomowProcedur.pop();
     }
 
     @Override
@@ -89,6 +137,11 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
         this.proceduryZProcedury = new Procedura['z' - 'a' + 1];
         this.poziomZmiennych = new Integer['z' - 'a' + 1];
         this.poziomProcedur = new Integer['z' - 'a' + 1];
+        this.tablicaParametrow = new Zmienna['z' - 'a' + 1];
+
+        for (int i = 0; i < parametryPrzekazane.size(); i++) {
+            this.wartosciParametrow.set(i, this.parametryPrzekazane.get(i).wartosc(stosZmiennych, stosPoziomowZmienych));
+        }
 
         if (stosPoziomowProcedur.empty()) {
             throw new NiezadeklarowanaProcedura(nazwa);
@@ -101,10 +154,18 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
                 throw new NiezadeklarowanaProcedura(nazwa);
             }
             else {
-                stosProcedur.push(poprzednieProcedury);
                 this.deklaracje = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwa])[nazwa].deklaracje;
                 this.instrukcje = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwa])[nazwa].instrukcje;
-                stosProcedur.pop();
+                this.parametryZdefiniowane = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwa])[nazwa].parametryZdefiniowane;
+
+                for (int i = 0; i < wartosciParametrow.size(); i++) {
+                    parametryZdefiniowane.get(i).setWartosc(wartosciParametrow.get(i));
+                }
+            }
+
+            for (Zmienna z : parametryZdefiniowane) {
+                char nazwa = z.getNazwa();
+                tablicaParametrow[nazwa] = z;
             }
 
             for (int i = 0; i < ('z' - 'a' + 1); i++) {
@@ -134,7 +195,12 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
             for (int i = 0; i < ('z' - 'a' + 1); i++) {
                 char nazwa = (char) ('a' + i);
                 zmienneZProcedury[i] = new Zmienna(nazwa);
-                if (poprzedniPoziom[i] == -1) {
+                if (znajdz(parametryZdefiniowane, (char) ('a' + i)) >= 0) {
+                    this.poziomZmiennych[i] = 0;
+                    int wartosc = parametryZdefiniowane.get(znajdz(parametryZdefiniowane, (char) ('a' + i))).getWartosc();
+                    zmienneZProcedury[i].setWartosc(wartosc);
+                }
+                else if (poprzedniPoziom[i] == -1) {
                     this.poziomZmiennych[i] = -1;
                 }
                 else {
@@ -150,6 +216,16 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
         stosProcedur.push(proceduryZProcedury);
         stosPoziomowProcedur.push(poziomProcedur);
 
+    }
+
+    private int znajdz(ArrayList<Zmienna> parametryZdefiniowane, char nazwa) {
+        for (int i = 0; i < parametryZdefiniowane.size(); i++) {
+            if (parametryZdefiniowane.get(i).getNazwa() == nazwa) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }
 
