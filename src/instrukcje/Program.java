@@ -54,6 +54,10 @@ public class Program {
             System.out.println("Procedura " + e.getNazwa() + " już została zadeklarowana.");
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
+        } catch (NiezadeklarowanaProcedura e) {
+            System.out.println("Zmienna " + e.getNazwa() + " nie zostala zadeklarowana.");
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
+            System.exit(1);
         }
     };
 
@@ -95,6 +99,10 @@ public class Program {
             System.exit(1);
         } catch (ProceduraJuzZadeklarowana e) {
             System.out.println("Procedura " + e.getNazwa() + " już została zadeklarowana.");
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
+            System.exit(1);
+        } catch (NiezadeklarowanaProcedura e) {
+            System.out.println("Procedura " + e.getNazwa() + " nie zostala zadeklarowana.");
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         }
