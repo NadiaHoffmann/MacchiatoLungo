@@ -3,8 +3,13 @@ package instrukcje;
 import wyjatki.NiepoprawnaLiczbaKrokow;
 import wyjatki.NiepoprawnyPoziom;
 import wyjatki.PustaKomenda;
+import wyrazenia.Wyrazenie;
 import wyrazenia.Zmienna;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -142,7 +147,70 @@ public class Odpluskwiacz {
                         }
                     }
                     case 'm' -> {
+                        String sciezkaPliku = daneWejsciowe.substring(2);
+                        String daneDoZapisu = "Widoczne zmienne: \n";
+                        Integer[] poziomyZmiennychZPoziomu = stosPoziomowZmiennych.peek();
+                        Zmienna[] tablicaZmiennychZPoziomu = stosZmiennych.peek();
 
+                        String widoczneZmienne = "";
+                        for (int znak = 0; znak < ('z' - 'a' + 1); znak++) {
+                            int poziom = poziomyZmiennychZPoziomu[znak];
+                            if (poziom >= 0) {
+                                int wartosc = tablicaZmiennychZPoziomu[znak].getWartosc();
+                                char nazwa = (char) ('a' + znak);
+                                widoczneZmienne += (nazwa + " = " + wartosc + '\n');
+                            }
+                        }
+
+                        if (widoczneZmienne.equals("")) {
+                            daneDoZapisu += "brak";
+                        } else {
+                            daneDoZapisu += widoczneZmienne;
+                        }
+
+                        daneDoZapisu += "Widoczne procedury: \n";
+
+                        Integer[] poziomyProcedurZPoziomu = stosPoziomowProcedur.peek();
+                        Procedura[] tablicaProcedurZPoziomu = stosProcedur.peek();
+                        String widoczneProcedury = "";
+
+                        for (int znak = 0; znak < ('z' - 'a' + 1); znak++) {
+                            int poziom = poziomyProcedurZPoziomu[znak];
+                            if (poziom >= 0) {
+                                String parametry = "";
+                                ArrayList<Zmienna> parametryZProcedury = tablicaProcedurZPoziomu[znak].getParametry();
+
+                                for (Zmienna z : parametryZProcedury) {
+                                    parametry += (z.toString() + ", ");
+                                }
+
+                                parametry = parametry.substring(0, parametry.length() - 2);
+
+                                char nazwa = (char) ('a' + znak);
+                                widoczneProcedury += (nazwa + " ( " + parametry + ")\n");
+                            }
+                        }
+
+                        if (widoczneProcedury.equals("")) {
+                            daneDoZapisu += "brak";
+                        } else {
+                            daneDoZapisu += widoczneProcedury;
+                        }
+
+                        try {
+                            File plik = new File(sciezkaPliku);
+                            plik.createNewFile();
+                            FileWriter zapisywacz = new FileWriter(sciezkaPliku);
+                            zapisywacz.write(daneDoZapisu);
+                            zapisywacz.close();
+                        }
+                        catch (IOException e) {
+                            System.out.println("Zapis do pliku " + daneWejsciowe + " nie powiódł się.");
+                        }
+
+                        this.ustawLicznik(-1);
+                        this.ustawInstrukcjeDebugera('.');
+                        this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
                     }
                     default -> {
                         System.out.println(znakInstrukcji + " nie jest poprawna instrukcja odpluskwiacza.");

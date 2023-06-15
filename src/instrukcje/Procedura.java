@@ -38,6 +38,14 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
         this.parametryPrzekazane = parametry;
     }
 
+    public char getNazwa() {
+        return nazwa;
+    }
+
+    public ArrayList<Zmienna> getParametry() {
+        return parametryZdefiniowane;
+    }
+
     @Override
     protected String wypisz(int liczbaTabow) {
         String tab = "";
