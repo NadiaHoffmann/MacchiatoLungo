@@ -1,13 +1,11 @@
 package instrukcje;
 
-import wyjatki.NiepoprawnaNazwaZmiennej;
-import wyjatki.NiepoprawnaWartoscZmiennej;
-import wyjatki.NiezadeklarowanaZmienna;
-import wyjatki.ZmiennaJuzZadeklarowana;
+import wyjatki.*;
 import wyrazenia.Wyrazenie;
 import wyrazenia.Zmienna;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Stack;
 
 public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
@@ -15,6 +13,11 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     private ArrayList<Wyrazenie> parametry;
     private ArrayList<Deklaracja> deklaracje;
     private ArrayList<Instrukcja> instrukcje;
+
+    private Zmienna[] zmienneZProcedury;
+    private Integer[] poziomZmiennych;
+    private Procedura[] proceduryZProcedury;
+    private Integer[] poziomProcedur;
 
     public Procedura(char nazwa) {
         this.nazwa = nazwa;
@@ -25,6 +28,11 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
         this.parametry = parametry;
         this.deklaracje = deklaracje;
         this.instrukcje = instrukcje;
+    }
+
+    public Procedura(char nazwa, ArrayList<Wyrazenie> parametry) {
+        this.nazwa = nazwa;
+        this.parametry = parametry;
     }
 
     @Override
@@ -73,4 +81,75 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     public Zmienna getWartoscZmiennej(char nazwa, Stack<Zmienna[]> stosZmiennych, Stack<Integer[]> stosPoziomowZmiennych) throws NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
         return ModyfikacjaZmiennych.super.getWartoscZmiennej(nazwa, stosZmiennych, stosPoziomowZmiennych);
     }
+
+    // czesc wspolna dla trzech powyzszych komend
+    private void czescWspolna(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmienych, Stack<Integer[]> stosPoziomowProcedur)
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiezadeklarowanaProcedura {
+        this.zmienneZProcedury = new Zmienna['z' - 'a' + 1];
+        this.proceduryZProcedury = new Procedura['z' - 'a' + 1];
+        this.poziomZmiennych = new Integer['z' - 'a' + 1];
+        this.poziomProcedur = new Integer['z' - 'a' + 1];
+
+        if (stosPoziomowProcedur.empty()) {
+            throw new NiezadeklarowanaProcedura(nazwa);
+        }
+        else {
+            Integer[] poprzedniPoziom = stosPoziomowProcedur.peek();
+            Procedura[] poprzednieProcedury = stosProcedur.peek();
+
+            if (poprzedniPoziom[nazwa] == -1) {
+                throw new NiezadeklarowanaProcedura(nazwa);
+            }
+            else {
+                stosProcedur.push(poprzednieProcedury);
+                this.deklaracje = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwa])[nazwa].deklaracje;
+                this.instrukcje = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwa])[nazwa].instrukcje;
+                stosProcedur.pop();
+            }
+
+            for (int i = 0; i < ('z' - 'a' + 1); i++) {
+                char nazwa = (char) ('a' + i);
+                if (poprzedniPoziom[i] == -1) {
+                    this.poziomProcedur[i] = -1;
+                    proceduryZProcedury[i] = new Procedura(nazwa);
+                }
+                else {
+                    this.poziomProcedur[i] = poprzedniPoziom[i] + 1;
+                    proceduryZProcedury[i] = poprzednieProcedury[i];
+                }
+            }
+        }
+
+        if (stosPoziomowZmienych.empty()) {
+            Arrays.fill(this.poziomZmiennych, -1);
+            for (int i = 0; i < ('z' -'a' + 1); i++) {
+                char nazwa = (char) ('a' + i);
+                zmienneZProcedury[i] = new Zmienna(nazwa);
+            }
+        }
+        else {
+            Integer[] poprzedniPoziom = stosPoziomowZmienych.peek();
+            Zmienna[] poprzednieZmienne = stosZmiennych.peek();
+
+            for (int i = 0; i < ('z' - 'a' + 1); i++) {
+                char nazwa = (char) ('a' + i);
+                zmienneZProcedury[i] = new Zmienna(nazwa);
+                if (poprzedniPoziom[i] == -1) {
+                    this.poziomZmiennych[i] = -1;
+                }
+                else {
+                    this.poziomZmiennych[i] = poprzedniPoziom[i] + 1;
+                    int wartosc = poprzednieZmienne[i].getWartosc();
+                    zmienneZProcedury[i].setWartosc(wartosc);
+                }
+            }
+        }
+
+        stosZmiennych.push(zmienneZProcedury);
+        stosPoziomowZmienych.push(poziomZmiennych);
+        stosProcedur.push(proceduryZProcedury);
+        stosPoziomowProcedur.push(poziomProcedur);
+
+    }
 }
+
