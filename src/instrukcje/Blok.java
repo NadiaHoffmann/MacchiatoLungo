@@ -46,43 +46,35 @@ public class Blok extends Instrukcja {
         private ArrayList<DeklaracjaZmiennej> ukryteDeklaracjeZmiennych;
         protected int licznikInstrukcji;
 
-        public BudowniczyBloku() {
-
-        }
+        public BudowniczyBloku() {}
 
         public BudowniczyBloku zadeklarujZmienna(char nazwa, Wyrazenie wyrazenie) {
-            this.deklaracje.add(new DeklaracjaZmiennej(nazwa, wyrazenie));
-            return this;
-        }
-
-        public BudowniczyBloku zadeklarujProcedure(char nazwa) {
             return null;
         }
 
-        public BudowniczyBloku wywolajProcedure(char nazwa) {
+        public BudowniczyBloku zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
             return null;
         }
 
-
-        public BudowniczyBloku wywolajInstrukcjeIf(Porownanie porownanie) {
+        public BudowniczyBloku wywolajProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
             return null;
         }
 
-
-        public BudowniczyBloku wywolajInstrukcjeIfElse(Porownanie porownanie) {
+        public BudowniczyBloku wywolajInstrukcjeIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf) {
             return null;
         }
 
+        public BudowniczyBloku wywolajInstrukcjeIfElse(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf, ArrayList<Instrukcja> instrukcjeElse) {
+            return null;
+        }
 
         public BudowniczyBloku wypisz(Wyrazenie wyrazenie) {
             return null;
         }
 
-
-        public BudowniczyBloku wywolajPetleFor(char nazwa, Wyrazenie wyrazenie) {
+        public BudowniczyBloku wywolajPetleFor(char nazwa, Wyrazenie wyrazenie, ArrayList<Instrukcja> instrukcje) {
             return null;
         }
-
 
         public BudowniczyBloku przypiszWartoscZmiennej(char nazwa, Wyrazenie wyrazenie) {
             return null;

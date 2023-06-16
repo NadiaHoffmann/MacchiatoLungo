@@ -30,43 +30,35 @@ public class Program {
 
         private Stack <Integer[]> stosPoziomowProcedur;
 
-        public BudowniczyProgramu() {
-
-        }
+        public BudowniczyProgramu() {}
 
         public BudowniczyProgramu zadeklarujZmienna(char nazwa, Wyrazenie wyrazenie) {
-            glowny.dodajDeklaracje(new DeklaracjaZmiennej(nazwa, wyrazenie));
-            return this;
-        }
-
-        public BudowniczyProgramu zadeklarujProcedure(char nazwa) {
             return null;
         }
 
-        public BudowniczyProgramu wywolajProcedure(char nazwa) {
+        public BudowniczyProgramu zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
             return null;
         }
 
-
-        public BudowniczyProgramu wywolajInstrukcjeIf(Porownanie porownanie) {
+        public BudowniczyProgramu wywolajProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
             return null;
         }
 
-
-        public BudowniczyProgramu wywolajInstrukcjeIfElse(Porownanie porownanie) {
+        public BudowniczyProgramu wywolajInstrukcjeIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf) {
             return null;
         }
 
+        public BudowniczyProgramu wywolajInstrukcjeIfElse(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf, ArrayList<Instrukcja> instrukcjeElse) {
+            return null;
+        }
 
         public BudowniczyProgramu wypisz(Wyrazenie wyrazenie) {
             return null;
         }
 
-
-        public BudowniczyProgramu wywolajPetleFor(char nazwa, Wyrazenie wyrazenie) {
+        public BudowniczyProgramu wywolajPetleFor(char nazwa, Wyrazenie wyrazenie, ArrayList<Instrukcja> instrukcje) {
             return null;
         }
-
 
         public BudowniczyProgramu przypiszWartoscZmiennej(char nazwa, Wyrazenie wyrazenie) {
             return null;
