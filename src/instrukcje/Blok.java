@@ -43,6 +43,14 @@ public class Blok extends Instrukcja {
         this.deklaracje.add(deklaracja);
     }
 
+    protected ArrayList<Deklaracja> getDeklaracje() {
+        return deklaracje;
+    }
+
+    protected ArrayList<Instrukcja> getInstrukcje() {
+        return instrukcje;
+    }
+
     @Override
     protected String wypisz(int liczbaTabow) {
         String tab = "";

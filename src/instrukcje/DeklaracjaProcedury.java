@@ -20,6 +20,13 @@ public class DeklaracjaProcedury extends Deklaracja {
         this.instrukcje = instrukcje;
     }
 
+    protected DeklaracjaProcedury(char nazwa, ArrayList<Wyrazenie> parametry, Blok blok) {
+        this.nazwa = nazwa;
+        this.parametry = parametry;
+        this.deklaracje = blok.getDeklaracje();
+        this.instrukcje = blok.getInstrukcje();
+    }
+
     @Override
     protected String wypisz(int liczbaTabow) {
         String tab = "";

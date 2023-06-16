@@ -33,7 +33,14 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
         this.instrukcje = instrukcje;
     }
 
-    private Procedura(char nazwa, ArrayList<Wyrazenie> parametry) {
+    protected Procedura(char nazwa, ArrayList<Wyrazenie> parametry, Blok blok) {
+        this.nazwa = nazwa;
+        this.parametryPrzekazane = parametry;
+        this.deklaracje = blok.getDeklaracje();
+        this.instrukcje = blok.getInstrukcje();
+    }
+
+    protected Procedura(char nazwa, ArrayList<Wyrazenie> parametry) {
         this.nazwa = nazwa;
         this.parametryPrzekazane = parametry;
     }
