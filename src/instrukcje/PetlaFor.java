@@ -42,7 +42,7 @@ public class PetlaFor extends Instrukcja {
         for (int i = 0; i < granica; i++) {
             ArrayList<Deklaracja> deklaracja = new ArrayList<>();
             ArrayList<DeklaracjaZmiennej> ukrytaDeklaracjaZmiennej = new ArrayList<>();
-            DeklaracjaZmiennej zmiennaWPetli = new DeklaracjaZmiennej(nazwa, new Literal(i));
+            DeklaracjaZmiennej zmiennaWPetli = new DeklaracjaZmiennej(nazwa, Literal.oWartosci(i));
 
             ukrytaDeklaracjaZmiennej.add(zmiennaWPetli);
             Blok blok = new Blok(deklaracja, ukrytaDeklaracjaZmiennej, instrukcje);
@@ -57,7 +57,7 @@ public class PetlaFor extends Instrukcja {
         for (int i = 0; i < this.granica; i++) {
             ArrayList<Deklaracja> deklaracja = new ArrayList<>();
             ArrayList<DeklaracjaZmiennej> ukrytaDeklaracjaZmiennej = new ArrayList<>();
-            DeklaracjaZmiennej zmiennaWPetli = new DeklaracjaZmiennej(nazwa, new Literal(i));
+            DeklaracjaZmiennej zmiennaWPetli = new DeklaracjaZmiennej(nazwa, Literal.oWartosci(i));
 
             ukrytaDeklaracjaZmiennej.add(zmiennaWPetli);
             Blok blok = new Blok(deklaracja, ukrytaDeklaracjaZmiennej, instrukcje);
@@ -73,7 +73,7 @@ public class PetlaFor extends Instrukcja {
         for (int i = 0; i < this.granica; i++) {
             ArrayList<Deklaracja> deklaracja = new ArrayList<>();
             ArrayList<DeklaracjaZmiennej> ukrytaDeklaracjaZmiennej = new ArrayList<>();
-            DeklaracjaZmiennej zmiennaWPetli = new DeklaracjaZmiennej(nazwa, new Literal(i));
+            DeklaracjaZmiennej zmiennaWPetli = new DeklaracjaZmiennej(nazwa, Literal.oWartosci(i));
 
             ukrytaDeklaracjaZmiennej.add(zmiennaWPetli);
             Blok blok = new Blok(deklaracja, ukrytaDeklaracjaZmiennej, instrukcje);
