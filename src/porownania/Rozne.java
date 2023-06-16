@@ -8,9 +8,13 @@ import wyrazenia.Zmienna;
 
 import java.util.Stack;
 
-public class RozneOd extends Porownanie {
-    public RozneOd(Wyrazenie wyr1, Wyrazenie wyr2) {
+public class Rozne extends Porownanie {
+    private Rozne(Wyrazenie wyr1, Wyrazenie wyr2) {
         super(wyr1, wyr2);
+    }
+
+    public Rozne coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
+        return new Rozne(wyr1, wyr2);
     }
 
     @Override

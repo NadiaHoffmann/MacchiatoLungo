@@ -9,8 +9,12 @@ import wyrazenia.Zmienna;
 import java.util.Stack;
 
 public class Rowne extends Porownanie {
-    public Rowne(Wyrazenie wyr1, Wyrazenie wyr2) {
+    private Rowne(Wyrazenie wyr1, Wyrazenie wyr2) {
         super(wyr1, wyr2);
+    }
+
+    public Rowne coZCzym(Wyrazenie wyr1, Wyrazenie wyr2) {
+        return new Rowne(wyr1, wyr2);
     }
 
     @Override

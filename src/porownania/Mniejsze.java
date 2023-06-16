@@ -14,8 +14,12 @@ public class Mniejsze extends Porownanie {
         return 2000;
     }
 
-    public Mniejsze(Wyrazenie wyr1, Wyrazenie wyr2) {
+    private Mniejsze(Wyrazenie wyr1, Wyrazenie wyr2) {
         super(wyr1, wyr2);
+    }
+
+    public Mniejsze coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
+        return new Mniejsze(wyr1, wyr2);
     }
 
     @Override

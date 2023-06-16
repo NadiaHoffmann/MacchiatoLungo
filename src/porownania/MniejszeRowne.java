@@ -9,8 +9,12 @@ import wyrazenia.Zmienna;
 import java.util.Stack;
 
 public class MniejszeRowne extends Porownanie {
-    public MniejszeRowne(Wyrazenie wyr1, Wyrazenie wyr2) {
+    private MniejszeRowne(Wyrazenie wyr1, Wyrazenie wyr2) {
         super(wyr1, wyr2);
+    }
+
+    public MniejszeRowne coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
+        return new MniejszeRowne(wyr1, wyr2);
     }
 
     @Override

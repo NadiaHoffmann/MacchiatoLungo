@@ -9,8 +9,12 @@ import wyrazenia.Zmienna;
 import java.util.Stack;
 
 public class Wieksze extends Porownanie {
-    public Wieksze(Wyrazenie wyr1, Wyrazenie wyr2) {
+    private Wieksze(Wyrazenie wyr1, Wyrazenie wyr2) {
         super(wyr1, wyr2);
+    }
+
+    public Wieksze coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
+        return new Wieksze(wyr1, wyr2);
     }
 
     @Override
