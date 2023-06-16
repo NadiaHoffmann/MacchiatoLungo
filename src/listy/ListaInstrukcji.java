@@ -12,7 +12,7 @@ public class ListaInstrukcji {
 
     }
 
-    public ArrayList jakich(Instrukcja... parametry) {
+    public ArrayList<Instrukcja> jakich(Instrukcja... parametry) {
         for (Instrukcja element : parametry) {
             lista.add(element);
         }

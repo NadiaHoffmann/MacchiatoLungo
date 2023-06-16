@@ -12,7 +12,7 @@ public class ListaDeklaracji {
 
     }
 
-    public ArrayList jakich(Deklaracja... parametry) {
+    public static ArrayList<Deklaracja> jakich(Deklaracja... parametry) {
         for (Deklaracja element : parametry) {
             lista.add(element);
         }

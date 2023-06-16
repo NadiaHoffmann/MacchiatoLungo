@@ -11,7 +11,7 @@ public class ListaWyrazen {
 
     }
 
-    public ArrayList jakich(Wyrazenie... parametry) {
+    public static ArrayList<Wyrazenie> jakich(Wyrazenie... parametry) {
         for (Wyrazenie element : parametry) {
             lista.add(element);
         }
