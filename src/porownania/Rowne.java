@@ -13,7 +13,7 @@ public class Rowne extends Porownanie {
         super(wyr1, wyr2);
     }
 
-    public Rowne coZCzym(Wyrazenie wyr1, Wyrazenie wyr2) {
+    public static Rowne coZCzym(Wyrazenie wyr1, Wyrazenie wyr2) {
         return new Rowne(wyr1, wyr2);
     }
 

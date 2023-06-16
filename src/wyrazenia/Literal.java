@@ -11,7 +11,7 @@ public class Literal extends Wyrazenie {
         this.wartosc = wartosc;
     }
 
-    public Literal oWartosci(int wartosc) {
+    public static Literal oWartosci(int wartosc) {
         return new Literal(wartosc);
     }
 

@@ -13,7 +13,7 @@ public class Rozne extends Porownanie {
         super(wyr1, wyr2);
     }
 
-    public Rozne coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
+    public static Rozne coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
         return new Rozne(wyr1, wyr2);
     }
 

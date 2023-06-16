@@ -11,7 +11,7 @@ public class Modulo extends Operacja {
         super(arg1, arg2);
     }
 
-    public Modulo z(Wyrazenie arg1, Wyrazenie arg2) {
+    public static Modulo z(Wyrazenie arg1, Wyrazenie arg2) {
         return new Modulo(arg1, arg2);
     }
 

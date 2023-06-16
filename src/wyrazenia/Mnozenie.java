@@ -16,7 +16,7 @@ public class Mnozenie extends Operacja {
         super(arg1, arg2);
     }
 
-    public Mnozenie przezSiebie(Wyrazenie arg1, Wyrazenie arg2) {
+    public static Mnozenie przezSiebie(Wyrazenie arg1, Wyrazenie arg2) {
         return new Mnozenie(arg1, arg2);
     }
 

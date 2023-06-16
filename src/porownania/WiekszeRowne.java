@@ -13,7 +13,7 @@ public class WiekszeRowne extends Porownanie {
         super(wyr1, wyr2);
     }
 
-    public WiekszeRowne coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
+    public static WiekszeRowne coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
         return new WiekszeRowne(wyr1, wyr2);
     }
 

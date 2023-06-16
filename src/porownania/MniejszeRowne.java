@@ -13,7 +13,7 @@ public class MniejszeRowne extends Porownanie {
         super(wyr1, wyr2);
     }
 
-    public MniejszeRowne coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
+    public static MniejszeRowne coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
         return new MniejszeRowne(wyr1, wyr2);
     }
 

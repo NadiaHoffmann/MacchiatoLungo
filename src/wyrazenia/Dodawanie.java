@@ -11,7 +11,7 @@ public class Dodawanie extends Operacja {
         super(arg1, arg2);
     }
 
-    public Dodawanie doSiebie(Wyrazenie arg1, Wyrazenie arg2) {
+    public static Dodawanie doSiebie(Wyrazenie arg1, Wyrazenie arg2) {
         return new Dodawanie(arg1, arg2);
     }
     @Override

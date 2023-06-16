@@ -18,7 +18,7 @@ public class Mniejsze extends Porownanie {
         super(wyr1, wyr2);
     }
 
-    public Mniejsze coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
+    public static Mniejsze coOdCzego(Wyrazenie wyr1, Wyrazenie wyr2) {
         return new Mniejsze(wyr1, wyr2);
     }
 

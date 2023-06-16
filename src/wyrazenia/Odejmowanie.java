@@ -16,7 +16,7 @@ public class Odejmowanie extends Operacja {
         super(arg1, arg2);
     }
 
-    public Odejmowanie odSiebie(Wyrazenie arg1, Wyrazenie arg2) {
+    public static Odejmowanie odSiebie(Wyrazenie arg1, Wyrazenie arg2) {
         return new Odejmowanie(arg1, arg2);
     }
 

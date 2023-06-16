@@ -11,7 +11,7 @@ public class Zmienna extends Wyrazenie implements ModyfikacjaZmiennych {
     private char nazwa;
     private int wartosc;
 
-    public Zmienna oNazwie(char nazwa) {
+    public static Zmienna oNazwie(char nazwa) {
         return new Zmienna(nazwa);
     }
 

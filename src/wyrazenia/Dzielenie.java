@@ -21,7 +21,7 @@ public class Dzielenie extends Operacja {
         super(arg1, arg2);
     }
 
-    public Dzielenie przezSiebie(Wyrazenie arg1, Wyrazenie arg2) {
+    public static Dzielenie przezSiebie(Wyrazenie arg1, Wyrazenie arg2) {
         return new Dzielenie(arg1, arg2);
     }
 
