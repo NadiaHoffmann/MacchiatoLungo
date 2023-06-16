@@ -13,7 +13,7 @@ public class DeklaracjaProcedury extends Deklaracja {
     private ArrayList<Deklaracja> deklaracje;
     private ArrayList<Instrukcja> instrukcje;
 
-    public DeklaracjaProcedury(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+    protected DeklaracjaProcedury(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         this.nazwa = nazwa;
         this.parametry = parametry;
         this.deklaracje = deklaracje;

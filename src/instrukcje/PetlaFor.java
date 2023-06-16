@@ -12,7 +12,7 @@ public class PetlaFor extends Instrukcja {
     private Wyrazenie wyrazenie;
     private ArrayList<Instrukcja> instrukcje;
 
-    public PetlaFor(char nazwa, Wyrazenie wyrazenie, ArrayList<Instrukcja> instrukcje) {
+    protected PetlaFor(char nazwa, Wyrazenie wyrazenie, ArrayList<Instrukcja> instrukcje) {
         this.nazwa = nazwa;
         this.wyrazenie = wyrazenie;
         this.instrukcje = instrukcje;

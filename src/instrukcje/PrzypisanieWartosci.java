@@ -13,7 +13,7 @@ public class PrzypisanieWartosci extends Instrukcja implements ModyfikacjaZmienn
     private char nazwa;
     private Wyrazenie wyrazenie;
 
-    public PrzypisanieWartosci(char nazwa, Wyrazenie wyrazenie) {
+    protected PrzypisanieWartosci(char nazwa, Wyrazenie wyrazenie) {
         this.nazwa = nazwa;
         this.wyrazenie = wyrazenie;
     }

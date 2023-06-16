@@ -12,7 +12,7 @@ import java.util.Stack;
 public class InstrukcjaPrint extends Instrukcja {
     private final Wyrazenie wyrazenie;
 
-    public InstrukcjaPrint(Wyrazenie wyrazenie) {
+    protected InstrukcjaPrint(Wyrazenie wyrazenie) {
         this.wyrazenie = wyrazenie;
     }
 

@@ -13,7 +13,7 @@ public class DeklaracjaZmiennej extends Deklaracja implements ModyfikacjaZmienny
     private final char nazwa;
     private Wyrazenie wyrazenie;
 
-    public DeklaracjaZmiennej(char nazwa, Wyrazenie wyrazenie) {
+    protected DeklaracjaZmiennej(char nazwa, Wyrazenie wyrazenie) {
         this.nazwa = nazwa;
         this.wyrazenie = wyrazenie;
     }

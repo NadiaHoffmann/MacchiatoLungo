@@ -22,7 +22,7 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     private Integer[] poziomProcedur;
     private Zmienna[] tablicaParametrow;
 
-    public Procedura(char nazwa) {
+    protected Procedura(char nazwa) {
         this.nazwa = nazwa;
     }
 
@@ -33,7 +33,7 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
         this.instrukcje = instrukcje;
     }
 
-    public Procedura(char nazwa, ArrayList<Wyrazenie> parametry) {
+    private Procedura(char nazwa, ArrayList<Wyrazenie> parametry) {
         this.nazwa = nazwa;
         this.parametryPrzekazane = parametry;
     }

@@ -12,13 +12,13 @@ public class InstrukcjaIf extends Instrukcja {
     private ArrayList<Instrukcja> instrukcjeIf, instrukcjeElse;
 
     // konstruktor dla If
-    public InstrukcjaIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf) {
+    protected InstrukcjaIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf) {
         this.porownanie = porownanie;
         this.instrukcjeIf = instrukcjeIf;
     }
 
     // konstruktor dla If-Else
-    public InstrukcjaIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf, ArrayList<Instrukcja> instrukcjeElse) {
+    protected InstrukcjaIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf, ArrayList<Instrukcja> instrukcjeElse) {
         this.porownanie = porownanie;
         this.instrukcjeIf = instrukcjeIf;
         this.instrukcjeElse = instrukcjeElse;
