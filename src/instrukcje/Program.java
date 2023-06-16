@@ -1,6 +1,8 @@
 package instrukcje;
 
+import porownania.Porownanie;
 import wyjatki.*;
+import wyrazenia.Wyrazenie;
 import wyrazenia.Zmienna;
 
 import java.util.ArrayList;
@@ -17,6 +19,58 @@ public class Program {
 
     public Program(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         this.glowny = new Blok(deklaracje, instrukcje);
+    }
+
+    public static class BudowniczyProgramu implements BudowniczyInstrukcji {
+        private Blok glowny;
+        private Stack <Zmienna[]> stosZmiennych;
+
+        private Stack<Procedura[]> stosProcedur;
+        private Stack <Integer[]> stosPoziomowZmiennych;
+
+        private Stack <Integer[]> stosPoziomowProcedur;
+
+        public BudowniczyProgramu() {
+
+        }
+
+        public BudowniczyProgramu zadeklarujZmienna(char nazwa, Wyrazenie wyrazenie) {
+            glowny.dodajDeklaracje(new DeklaracjaZmiennej(nazwa, wyrazenie));
+            return this;
+        }
+
+        public BudowniczyProgramu zadeklarujProcedure(char nazwa) {
+            return null;
+        }
+
+        public BudowniczyProgramu wywolajProcedure(char nazwa) {
+            return null;
+        }
+
+
+        public BudowniczyProgramu wywolajInstrukcjeIf(Porownanie porownanie) {
+            return null;
+        }
+
+
+        public BudowniczyProgramu wywolajInstrukcjeIfElse(Porownanie porownanie) {
+            return null;
+        }
+
+
+        public BudowniczyProgramu wypisz(Wyrazenie wyrazenie) {
+            return null;
+        }
+
+
+        public BudowniczyProgramu wywolajPetleFor(char nazwa, Wyrazenie wyrazenie) {
+            return null;
+        }
+
+
+        public BudowniczyProgramu przypiszWartoscZmiennej(char nazwa, Wyrazenie wyrazenie) {
+            return null;
+        }
     }
 
     public void wykonaj() {

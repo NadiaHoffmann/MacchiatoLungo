@@ -1,6 +1,8 @@
 package instrukcje;
 
+import porownania.Porownanie;
 import wyjatki.*;
+import wyrazenia.Wyrazenie;
 import wyrazenia.Zmienna;
 
 import java.util.ArrayList;
@@ -31,6 +33,68 @@ public class Blok extends Instrukcja {
         this.ukryteDeklaracjeZmiennych = new ArrayList<>();
         this.instrukcje = instrukcje;
         this.licznikInstrukcji = instrukcje.size();
+    }
+
+    public static class BudowniczyBloku implements BudowniczyInstrukcji {
+        private Zmienna[] zmienneZBloku;
+        private Integer[] poziomZmiennych;
+        private Procedura[] proceduryZBloku;
+        private Integer[] poziomProcedur;
+
+        private ArrayList<Instrukcja> instrukcje;
+        private ArrayList<Deklaracja> deklaracje;
+        private ArrayList<DeklaracjaZmiennej> ukryteDeklaracjeZmiennych;
+        protected int licznikInstrukcji;
+
+        public BudowniczyBloku() {
+
+        }
+
+        public BudowniczyBloku zadeklarujZmienna(char nazwa, Wyrazenie wyrazenie) {
+            this.deklaracje.add(new DeklaracjaZmiennej(nazwa, wyrazenie));
+            return this;
+        }
+
+        public BudowniczyBloku zadeklarujProcedure(char nazwa) {
+            return null;
+        }
+
+        public BudowniczyBloku wywolajProcedure(char nazwa) {
+            return null;
+        }
+
+
+        public BudowniczyBloku wywolajInstrukcjeIf(Porownanie porownanie) {
+            return null;
+        }
+
+
+        public BudowniczyBloku wywolajInstrukcjeIfElse(Porownanie porownanie) {
+            return null;
+        }
+
+
+        public BudowniczyBloku wypisz(Wyrazenie wyrazenie) {
+            return null;
+        }
+
+
+        public BudowniczyBloku wywolajPetleFor(char nazwa, Wyrazenie wyrazenie) {
+            return null;
+        }
+
+
+        public BudowniczyBloku przypiszWartoscZmiennej(char nazwa, Wyrazenie wyrazenie) {
+            return null;
+        }
+    }
+
+    protected void dodajInstrukcje(Instrukcja instrukcja) {
+        this.instrukcje.add(instrukcja);
+    }
+
+    protected void dodajDeklaracje(Deklaracja deklaracja) {
+        this.deklaracje.add(deklaracja);
     }
 
     @Override
