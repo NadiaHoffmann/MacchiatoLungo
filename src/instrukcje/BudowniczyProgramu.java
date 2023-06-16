@@ -15,13 +15,13 @@ public class BudowniczyProgramu implements BudowniczyInstrukcji {
         return this;
     }
 
-    public BudowniczyProgramu zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
-        glowny.dodajDeklaracje(new DeklaracjaProcedury(nazwa, parametry, deklaracje, instrukcje));
+    public BudowniczyProgramu zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, Blok blok) {
+        glowny.dodajDeklaracje(new DeklaracjaProcedury(nazwa, parametry, blok));
         return this;
     }
 
-    public BudowniczyProgramu wywolajProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
-        glowny.dodajInstrukcje(new Procedura(nazwa, parametry, deklaracje, instrukcje));
+    public BudowniczyProgramu wywolajProcedure(char nazwa, ArrayList<Wyrazenie> parametry) {
+        glowny.dodajInstrukcje(new Procedura(nazwa, parametry));
         return this;
     }
 

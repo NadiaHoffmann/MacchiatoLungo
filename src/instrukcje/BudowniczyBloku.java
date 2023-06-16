@@ -21,8 +21,8 @@ public class BudowniczyBloku implements BudowniczyInstrukcji {
         return this;
     }
 
-    public BudowniczyBloku wywolajProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
-        instrukcje.add(new Procedura(nazwa, parametry, deklaracje, instrukcje));
+    public BudowniczyBloku wywolajProcedure(char nazwa, ArrayList<Wyrazenie> parametry) {
+        instrukcje.add(new Procedura(nazwa, parametry));
         return this;
     }
 
