@@ -17,51 +17,66 @@ public class Program {
 
     private Stack <Integer[]> stosPoziomowProcedur;
 
-    public Program(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+    private Program(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         this.glowny = new Blok(deklaracje, instrukcje);
     }
 
-    public static class BudowniczyProgramu implements BudowniczyInstrukcji {
+    private Program(Blok glowny) {
+        this.glowny = glowny;
+    }
+
+    public static final class BudowniczyProgramu implements BudowniczyInstrukcji {
         private Blok glowny;
-        private Stack <Zmienna[]> stosZmiennych;
-
-        private Stack<Procedura[]> stosProcedur;
-        private Stack <Integer[]> stosPoziomowZmiennych;
-
-        private Stack <Integer[]> stosPoziomowProcedur;
 
         public BudowniczyProgramu() {}
 
         public BudowniczyProgramu zadeklarujZmienna(char nazwa, Wyrazenie wyrazenie) {
-            return null;
+            glowny.dodajDeklaracje(new DeklaracjaZmiennej(nazwa, wyrazenie));
+            return this;
         }
 
         public BudowniczyProgramu zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
-            return null;
+            glowny.dodajDeklaracje(new DeklaracjaProcedury(nazwa, parametry, deklaracje, instrukcje));
+            return this;
         }
 
         public BudowniczyProgramu wywolajProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
-            return null;
+            glowny.dodajInstrukcje(new Procedura(nazwa, parametry, deklaracje, instrukcje));
+            return this;
         }
 
         public BudowniczyProgramu wywolajInstrukcjeIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf) {
-            return null;
+            glowny.dodajInstrukcje(new InstrukcjaIf(porownanie, instrukcjeIf));
+            return this;
         }
 
         public BudowniczyProgramu wywolajInstrukcjeIfElse(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf, ArrayList<Instrukcja> instrukcjeElse) {
-            return null;
+            glowny.dodajInstrukcje(new InstrukcjaIf(porownanie, instrukcjeIf, instrukcjeElse));
+            return this;
         }
 
         public BudowniczyProgramu wypisz(Wyrazenie wyrazenie) {
-            return null;
+            glowny.dodajInstrukcje(new InstrukcjaPrint(wyrazenie));
+            return this;
         }
 
         public BudowniczyProgramu wywolajPetleFor(char nazwa, Wyrazenie wyrazenie, ArrayList<Instrukcja> instrukcje) {
-            return null;
+            glowny.dodajInstrukcje(new PetlaFor(nazwa, wyrazenie, instrukcje));
+            return this;
         }
 
         public BudowniczyProgramu przypiszWartoscZmiennej(char nazwa, Wyrazenie wyrazenie) {
-            return null;
+            glowny.dodajInstrukcje(new PrzypisanieWartosci(nazwa, wyrazenie));
+            return this;
+        }
+
+        public BudowniczyProgramu dodajBlok(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+            glowny.dodajInstrukcje(new Blok(deklaracje, instrukcje));
+            return this;
+        }
+
+        public Program zbuduj() {
+            return new Program(this.glowny);
         }
     }
 

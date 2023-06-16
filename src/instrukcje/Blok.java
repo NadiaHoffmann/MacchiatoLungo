@@ -28,7 +28,7 @@ public class Blok extends Instrukcja {
         this.licznikInstrukcji = instrukcje.size();
     }
 
-    public Blok(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+    protected Blok(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         this.deklaracje = deklaracje == null ? new ArrayList<>() : deklaracje;
         this.ukryteDeklaracjeZmiennych = new ArrayList<>();
         this.instrukcje = instrukcje;
@@ -36,48 +36,58 @@ public class Blok extends Instrukcja {
     }
 
     public static class BudowniczyBloku implements BudowniczyInstrukcji {
-        private Zmienna[] zmienneZBloku;
-        private Integer[] poziomZmiennych;
-        private Procedura[] proceduryZBloku;
-        private Integer[] poziomProcedur;
-
         private ArrayList<Instrukcja> instrukcje;
         private ArrayList<Deklaracja> deklaracje;
-        private ArrayList<DeklaracjaZmiennej> ukryteDeklaracjeZmiennych;
-        protected int licznikInstrukcji;
 
         public BudowniczyBloku() {}
 
         public BudowniczyBloku zadeklarujZmienna(char nazwa, Wyrazenie wyrazenie) {
-            return null;
+            deklaracje.add(new DeklaracjaZmiennej(nazwa, wyrazenie));
+            return this;
         }
 
         public BudowniczyBloku zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
-            return null;
+            deklaracje.add(new DeklaracjaProcedury(nazwa, parametry, deklaracje, instrukcje));
+            return this;
         }
 
         public BudowniczyBloku wywolajProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
-            return null;
+            instrukcje.add(new Procedura(nazwa, parametry, deklaracje, instrukcje));
+            return this;
         }
 
         public BudowniczyBloku wywolajInstrukcjeIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf) {
-            return null;
+            instrukcje.add(new InstrukcjaIf(porownanie, instrukcjeIf));
+            return this;
         }
 
         public BudowniczyBloku wywolajInstrukcjeIfElse(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf, ArrayList<Instrukcja> instrukcjeElse) {
-            return null;
+            instrukcje.add(new InstrukcjaIf(porownanie, instrukcjeIf, instrukcjeElse));
+            return this;
         }
 
         public BudowniczyBloku wypisz(Wyrazenie wyrazenie) {
-            return null;
+            instrukcje.add(new InstrukcjaPrint(wyrazenie));
+            return this;
         }
 
         public BudowniczyBloku wywolajPetleFor(char nazwa, Wyrazenie wyrazenie, ArrayList<Instrukcja> instrukcje) {
-            return null;
+            instrukcje.add(new PetlaFor(nazwa, wyrazenie, instrukcje));
+            return this;
         }
 
         public BudowniczyBloku przypiszWartoscZmiennej(char nazwa, Wyrazenie wyrazenie) {
-            return null;
+            instrukcje.add(new PrzypisanieWartosci(nazwa, wyrazenie));
+            return this;
+        }
+
+        public BudowniczyBloku dodajBlok(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+            instrukcje.add(new Blok(deklaracje, instrukcje));
+            return this;
+        }
+
+        public Blok zbuduj() {
+            return new Blok(this.deklaracje, this.instrukcje);
         }
     }
 
