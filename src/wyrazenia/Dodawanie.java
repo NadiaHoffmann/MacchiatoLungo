@@ -7,8 +7,12 @@ import wyjatki.NiezadeklarowanaZmienna;
 import java.util.Stack;
 
 public class Dodawanie extends Operacja {
-    public Dodawanie(Wyrazenie arg1, Wyrazenie arg2) {
+    protected Dodawanie(Wyrazenie arg1, Wyrazenie arg2) {
         super(arg1, arg2);
+    }
+
+    public Dodawanie doSiebie(Wyrazenie arg1, Wyrazenie arg2) {
+        return new Dodawanie(arg1, arg2);
     }
     @Override
     public int priorytet(){

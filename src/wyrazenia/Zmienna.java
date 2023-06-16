@@ -11,6 +11,10 @@ public class Zmienna extends Wyrazenie implements ModyfikacjaZmiennych {
     private char nazwa;
     private int wartosc;
 
+    public Zmienna oNazwie(char nazwa) {
+        return new Zmienna(nazwa);
+    }
+
     @Override
     public int wartosc(Stack <Zmienna[]> stosZmiennych, Stack<Integer[]> stosPoziomow) throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
         if (this.getWartoscZmiennej(this.nazwa, stosZmiennych, stosPoziomow) != null) {

@@ -7,8 +7,12 @@ import wyjatki.NiezadeklarowanaZmienna;
 import java.util.Stack;
 
 public class Modulo extends Operacja {
-    public Modulo(Wyrazenie arg1, Wyrazenie arg2) {
+    protected Modulo(Wyrazenie arg1, Wyrazenie arg2) {
         super(arg1, arg2);
+    }
+
+    public Modulo z(Wyrazenie arg1, Wyrazenie arg2) {
+        return new Modulo(arg1, arg2);
     }
 
     @Override

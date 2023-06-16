@@ -7,8 +7,12 @@ import java.util.Stack;
 public class Literal extends Wyrazenie {
     private final int wartosc;
 
-    public Literal(int wartosc) {
+    protected Literal(int wartosc) {
         this.wartosc = wartosc;
+    }
+
+    public Literal oWartosci(int wartosc) {
+        return new Literal(wartosc);
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Deklaracja> deklaracje1 = new ArrayList<>();
+        /*ArrayList<Deklaracja> deklaracje1 = new ArrayList<>();
         deklaracje1.add(new DeklaracjaZmiennej('n', new Literal(30)));
         ArrayList<Instrukcja> instrukcje1 = new ArrayList<>();
         ArrayList<Deklaracja> deklaracje2 = new ArrayList<>();
@@ -29,6 +29,6 @@ public class Main {
         instrukcje6.add(new Blok(deklaracje2, instrukcje2));
         Program main = new Program(deklaracje1, instrukcje1);
         main.wykonaj();
-        main.wykonajZOdpluskwiaczem();
+        main.wykonajZOdpluskwiaczem();*/
     }
 }

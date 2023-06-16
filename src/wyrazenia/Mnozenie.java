@@ -12,8 +12,12 @@ public class Mnozenie extends Operacja {
         return 500;
     }
 
-    public Mnozenie(Wyrazenie arg1, Wyrazenie arg2) {
+    protected Mnozenie(Wyrazenie arg1, Wyrazenie arg2) {
         super(arg1, arg2);
+    }
+
+    public Mnozenie przezSiebie(Wyrazenie arg1, Wyrazenie arg2) {
+        return new Mnozenie(arg1, arg2);
     }
 
     @Override

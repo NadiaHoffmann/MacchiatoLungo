@@ -12,8 +12,12 @@ public class Odejmowanie extends Operacja {
         return 100;
     }
 
-    public Odejmowanie(Wyrazenie arg1, Wyrazenie arg2) {
+    protected Odejmowanie(Wyrazenie arg1, Wyrazenie arg2) {
         super(arg1, arg2);
+    }
+
+    public Odejmowanie odSiebie(Wyrazenie arg1, Wyrazenie arg2) {
+        return new Odejmowanie(arg1, arg2);
     }
 
     @Override
