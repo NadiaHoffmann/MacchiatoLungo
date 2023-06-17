@@ -42,6 +42,13 @@ public class Blok extends Instrukcja {
         this.licznikInstrukcji = instrukcje.size();
     }
 
+    protected Blok(){
+        this.deklaracje = new ArrayList<Deklaracja>();
+        this.ukryteDeklaracjeZmiennych = new ArrayList<>();
+        this.instrukcje = new ArrayList<>();
+        this.licznikInstrukcji = 0;
+    };
+
     protected void dodajInstrukcje(Instrukcja instrukcja) {
         this.instrukcje.add(instrukcja);
     }
@@ -56,6 +63,10 @@ public class Blok extends Instrukcja {
 
     protected ArrayList<Instrukcja> getInstrukcje() {
         return instrukcje;
+    }
+
+    protected void zwiekszLiczbeInstrukcji() {
+        this.licznikInstrukcji++;
     }
 
     @Override

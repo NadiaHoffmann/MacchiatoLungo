@@ -6,8 +6,8 @@ import wyrazenia.Wyrazenie;
 import java.util.ArrayList;
 
 public class BudowniczyBloku implements BudowniczyInstrukcji {
-    private ArrayList<Instrukcja> instrukcje;
-    private ArrayList<Deklaracja> deklaracje;
+    private ArrayList<Instrukcja> instrukcje = new ArrayList<>();
+    private ArrayList<Deklaracja> deklaracje = new ArrayList<>();
 
     public BudowniczyBloku() {}
 

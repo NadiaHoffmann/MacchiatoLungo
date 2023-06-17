@@ -6,17 +6,17 @@ import wyrazenia.Wyrazenie;
 import java.util.ArrayList;
 
 public class ListaDeklaracji {
-    private ArrayList<Deklaracja> lista;
 
     private ListaDeklaracji() {
 
     }
 
     public static ArrayList<Deklaracja> jakich(Deklaracja... parametry) {
+        ArrayList<Deklaracja> lista = new ArrayList<>();
         for (Deklaracja element : parametry) {
             lista.add(element);
         }
 
-        return this.lista;
+        return lista;
     }
 }

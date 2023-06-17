@@ -6,16 +6,16 @@ import wyrazenia.Wyrazenie;
 import java.util.ArrayList;
 
 public class ListaInstrukcji {
-    private ArrayList<Instrukcja> lista;
 
     private ListaInstrukcji() {
 
     }
 
     public ArrayList<Instrukcja> jakich(Instrukcja... parametry) {
+        ArrayList<Instrukcja> lista = new ArrayList<>();
         for (Instrukcja element : parametry) {
             lista.add(element);
         }
-        return this.lista;
+        return lista;
     }
 }
