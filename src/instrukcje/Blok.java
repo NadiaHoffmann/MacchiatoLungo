@@ -35,6 +35,13 @@ public class Blok extends Instrukcja {
         this.licznikInstrukcji = instrukcje.size();
     }
 
+    protected Blok(Blok blok) {
+        this.deklaracje = blok.getDeklaracje() == null ? new ArrayList<>() : deklaracje;
+        this.ukryteDeklaracjeZmiennych = new ArrayList<>();
+        this.instrukcje = blok.getInstrukcje();
+        this.licznikInstrukcji = instrukcje.size();
+    }
+
     protected void dodajInstrukcje(Instrukcja instrukcja) {
         this.instrukcje.add(instrukcja);
     }

@@ -22,5 +22,5 @@ public interface BudowniczyInstrukcji {
 
     public BudowniczyInstrukcji przypiszWartoscZmiennej(char nazwa, Wyrazenie wyrazenie);
 
-    public BudowniczyInstrukcji dodajBlok(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje);
+    public BudowniczyInstrukcji dodajBlok(Blok blok);
 }

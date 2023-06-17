@@ -16,7 +16,7 @@ public class BudowniczyProgramu implements BudowniczyInstrukcji {
     }
 
     public BudowniczyProgramu zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, Blok blok) {
-        glowny.dodajDeklaracje(new DeklaracjaProcedury(nazwa, parametry, blok));
+        glowny.dodajDeklaracje(new DeklaracjaProcedury(nazwa, parametry, blok.getDeklaracje(), blok.getInstrukcje()));
         return this;
     }
 
@@ -50,8 +50,8 @@ public class BudowniczyProgramu implements BudowniczyInstrukcji {
         return this;
     }
 
-    public BudowniczyProgramu dodajBlok(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
-        glowny.dodajInstrukcje(new Blok(deklaracje, instrukcje));
+    public BudowniczyProgramu dodajBlok(Blok blok) {
+        glowny.dodajInstrukcje(new Blok(blok.getDeklaracje(), blok.getInstrukcje()));
         return this;
     }
 

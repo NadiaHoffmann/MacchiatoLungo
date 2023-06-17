@@ -1,10 +1,8 @@
 package glowny;
 
 import instrukcje.*;
-import porownania.Rowne;
+import listy.*;
 import wyrazenia.*;
-
-import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,5 +28,24 @@ public class Main {
         Program main = new Program(deklaracje1, instrukcje1);
         main.wykonaj();
         main.wykonajZOdpluskwiaczem();*/
+
+        var program = new BudowniczyProgramu()
+                .zadeklarujZmienna('x', Literal.oWartosci(101))
+                .zadeklarujZmienna('y', Literal.oWartosci(1))
+                .zadeklarujProcedure('o', ListaWyrazen.jakich(Zmienna.oNazwie('a')), new BudowniczyBloku()
+                        .wypisz(Dodawanie.doSiebie(Zmienna.oNazwie('a'), Zmienna.oNazwie('x')))
+                        .zbuduj()
+                )
+                .przypiszWartoscZmiennej('x', Odejmowanie.odSiebie(Zmienna.oNazwie('x'), Zmienna.oNazwie('y')))
+                .wywolajProcedure('o', ListaWyrazen.jakich(Zmienna.oNazwie('x')))
+                .wywolajProcedure('o', ListaWyrazen.jakich(Literal.oWartosci(100)))
+                .dodajBlok(new BudowniczyBloku()
+                        .zadeklarujZmienna('x', Literal.oWartosci(10))
+                        .wywolajProcedure('o', ListaWyrazen.jakich(Literal.oWartosci(100)))
+                        .zbuduj()
+                )
+                .zbuduj();
+
+        program.wykonaj();
     }
 }
