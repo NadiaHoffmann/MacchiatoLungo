@@ -29,6 +29,14 @@ public class Blok extends Instrukcja {
     }
 
     protected Blok(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+        for (Deklaracja d : deklaracje) {
+            d.wypisz(0);
+        }
+
+        for (Instrukcja i : instrukcje) {
+            i.wypisz(0);
+        }
+
         this.deklaracje = deklaracje == null ? new ArrayList<>() : deklaracje;
         this.ukryteDeklaracjeZmiennych = new ArrayList<>();
         this.instrukcje = instrukcje;
@@ -58,11 +66,11 @@ public class Blok extends Instrukcja {
     }
 
     protected ArrayList<Deklaracja> getDeklaracje() {
-        return deklaracje;
+        return this.deklaracje;
     }
 
     protected ArrayList<Instrukcja> getInstrukcje() {
-        return instrukcje;
+        return this.instrukcje;
     }
 
     protected void zwiekszLiczbeInstrukcji() {

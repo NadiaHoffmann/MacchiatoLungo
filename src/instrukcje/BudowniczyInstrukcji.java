@@ -9,6 +9,7 @@ public interface BudowniczyInstrukcji {
     public BudowniczyInstrukcji zadeklarujZmienna(char nazwa, Wyrazenie wyrazenie);
 
     public BudowniczyInstrukcji zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, Blok blok);
+    public BudowniczyInstrukcji zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje);
 
     public BudowniczyInstrukcji wywolajProcedure(char nazwa, ArrayList<Wyrazenie> parametry);
 

@@ -16,7 +16,27 @@ public class BudowniczyProgramu implements BudowniczyInstrukcji {
         return this;
     }
 
+    public BudowniczyProgramu zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+        for (Deklaracja d : /*blok.getDeklaracje()*/ deklaracje) {
+            d.wypisz(0);
+        }
+
+        for (Instrukcja i : /*blok.getInstrukcje()*/ instrukcje) {
+            i.wypisz(0);
+        }
+        glowny.dodajDeklaracje(new DeklaracjaProcedury(nazwa, parametry, /*blok.getDeklaracje(), blok.getInstrukcje()*/ deklaracje, instrukcje));
+        glowny.zwiekszLiczbeInstrukcji();
+        return this;
+    }
+
     public BudowniczyProgramu zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, Blok blok) {
+        for (Deklaracja d : blok.getDeklaracje()) {
+            d.wypisz(0);
+        }
+
+        for (Instrukcja i : blok.getInstrukcje()) {
+            i.wypisz(0);
+        }
         glowny.dodajDeklaracje(new DeklaracjaProcedury(nazwa, parametry, blok.getDeklaracje(), blok.getInstrukcje()));
         glowny.zwiekszLiczbeInstrukcji();
         return this;

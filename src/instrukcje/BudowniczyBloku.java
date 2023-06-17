@@ -17,7 +17,19 @@ public class BudowniczyBloku implements BudowniczyInstrukcji {
     }
 
     public BudowniczyBloku zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, Blok blok) {
+        for (Deklaracja d : blok.getDeklaracje()) {
+            d.wypisz(0);
+        }
+
+        for (Instrukcja i : blok.getInstrukcje()) {
+            i.wypisz(0);
+        }
         deklaracje.add(new DeklaracjaProcedury(nazwa, parametry, blok.getDeklaracje(), blok.getInstrukcje()));
+        return this;
+    }
+
+    public BudowniczyBloku zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+        deklaracje.add(new DeklaracjaProcedury(nazwa, parametry, deklaracje, instrukcje));
         return this;
     }
 
@@ -57,6 +69,14 @@ public class BudowniczyBloku implements BudowniczyInstrukcji {
     }
 
     public Blok zbuduj() {
+        for (Deklaracja d : this.deklaracje) {
+            d.wypisz(0);
+        }
+
+        for (Instrukcja i : this.instrukcje) {
+            i.wypisz(0);
+        }
+
         return new Blok(this.deklaracje, this.instrukcje);
     }
 }

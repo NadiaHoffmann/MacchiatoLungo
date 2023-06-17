@@ -32,20 +32,24 @@ public class Main {
         var program = new BudowniczyProgramu()
                 .zadeklarujZmienna('x', Literal.oWartosci(101))
                 .zadeklarujZmienna('y', Literal.oWartosci(1))
-                .zadeklarujProcedure('o', ListaWyrazen.jakich(Zmienna.oNazwie('a')), new BudowniczyBloku()
-                        .wypisz(Dodawanie.doSiebie(Zmienna.oNazwie('a'), Zmienna.oNazwie('x')))
+                .wypisz(Dodawanie.doSiebie(Zmienna.oNazwie('y'), Zmienna.oNazwie('x')))
+                .zadeklarujProcedure('o', ListaWyrazen.jakich(Zmienna.oNazwie('a')),
+                        new BudowniczyBloku()
+                        .przypiszWartoscZmiennej('x', Odejmowanie.odSiebie(Zmienna.oNazwie('x'), Zmienna.oNazwie('y')))
+                        .wypisz(Zmienna.oNazwie('x'))
                         .zbuduj()
                 )
-                .przypiszWartoscZmiennej('x', Odejmowanie.odSiebie(Zmienna.oNazwie('x'), Zmienna.oNazwie('y')))
-                .wywolajProcedure('o', ListaWyrazen.jakich(Zmienna.oNazwie('x')))
-                .wywolajProcedure('o', ListaWyrazen.jakich(Literal.oWartosci(100)))
+                //.wywolajProcedure('o', ListaWyrazen.jakich(Zmienna.oNazwie('x')))
+                //.wywolajProcedure('o', ListaWyrazen.jakich(Literal.oWartosci(100)))
                 .dodajBlok(new BudowniczyBloku()
                         .zadeklarujZmienna('x', Literal.oWartosci(10))
-                        .wywolajProcedure('o', ListaWyrazen.jakich(Literal.oWartosci(100)))
+                        //.wywolajProcedure('o', ListaWyrazen.jakich(Literal.oWartosci(100)))
+                        .wypisz(Zmienna.oNazwie('y'))
                         .zbuduj()
                 )
                 .zbuduj();
 
         program.wykonaj();
+        //program.wykonajZOdpluskwiaczem();
     }
 }
