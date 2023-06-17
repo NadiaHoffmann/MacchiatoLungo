@@ -64,12 +64,18 @@ public class DeklaracjaProcedury extends Deklaracja {
             throw new ProceduraJuzZadeklarowana(this.nazwa);
         }
         else {
-            // setWartosc korzysta ze stosow, z tego powodu poziomyProcedur i tablicaProcedurZBloku sa wkladane na stos
-            stosPoziomowProcedur.push(poziomyProcedur);
-            stosProcedur.push(tablicaProcedurZBloku);
+            System.out.println(nazwa);
+            for (Wyrazenie w : parametry) {
+                System.out.println(w.toString());
+            }
+            for (Deklaracja d : deklaracje) {
+                d.wypisz(0);
+            }
+            for(Instrukcja i :  instrukcje) {
+                i.wypisz(0);
+            }
             tablicaProcedurZBloku[nazwaJakoIndeks] = new Procedura(nazwa, parametry, deklaracje, instrukcje);
-            stosPoziomowProcedur.pop();
-            stosProcedur.pop();
+            tablicaProcedurZBloku[nazwaJakoIndeks].wypisz(0);
             poziomyProcedur[nazwaJakoIndeks] = 0;
             stosProcedur.push(tablicaProcedurZBloku);
             stosPoziomowProcedur.push(poziomyProcedur);

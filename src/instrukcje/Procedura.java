@@ -153,33 +153,44 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
         this.poziomZmiennych = new Integer['z' - 'a' + 1];
         this.poziomProcedur = new Integer['z' - 'a' + 1];
         this.tablicaParametrow = new Zmienna['z' - 'a' + 1];
+        this.wartosciParametrow = new ArrayList<>();
 
         for (int i = 0; i < parametryPrzekazane.size(); i++) {
-            this.wartosciParametrow.set(i, this.parametryPrzekazane.get(i).wartosc(stosZmiennych, stosPoziomowZmienych));
+            this.wartosciParametrow.add(this.parametryPrzekazane.get(i).wartosc(stosZmiennych, stosPoziomowZmienych));
         }
 
         if (stosPoziomowProcedur.empty()) {
             throw new NiezadeklarowanaProcedura(nazwa);
         }
         else {
+            int nazwaJakoIndeks = nazwa - 'a';
             Integer[] poprzedniPoziom = stosPoziomowProcedur.peek();
             Procedura[] poprzednieProcedury = stosProcedur.peek();
 
-            if (poprzedniPoziom[nazwa] == -1) {
+            if (poprzedniPoziom[nazwaJakoIndeks] == -1) {
                 throw new NiezadeklarowanaProcedura(nazwa);
             }
             else {
-                this.deklaracje = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwa])[nazwa].deklaracje;
-                this.instrukcje = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwa])[nazwa].instrukcje;
-                this.parametryZdefiniowane = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwa])[nazwa].parametryZdefiniowane;
+                this.deklaracje = poprzednieProcedury[nazwaJakoIndeks].deklaracje;
+                this.instrukcje = poprzednieProcedury[nazwaJakoIndeks].instrukcje;
+                this.parametryZdefiniowane = poprzednieProcedury[nazwaJakoIndeks].parametryZdefiniowane;
+
+                //this.deklaracje = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwaJakoIndeks])[nazwaJakoIndeks].deklaracje;
+                //this.instrukcje = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwaJakoIndeks])[nazwaJakoIndeks].instrukcje;
+                //this.parametryZdefiniowane = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwaJakoIndeks])[nazwaJakoIndeks].parametryZdefiniowane;
+
+                for (int i = 0; i < poprzednieProcedury.length; i++) {
+                    System.out.println(poprzednieProcedury[i].wypisz(0));
+                }
 
                 for (int i = 0; i < wartosciParametrow.size(); i++) {
-                    parametryZdefiniowane.get(i).setWartosc(wartosciParametrow.get(i));
+                    System.out.println(wartosciParametrow.get(i));
+                    //parametryZdefiniowane.get(i).setWartosc(wartosciParametrow.get(i));
                 }
             }
 
             for (Zmienna z : parametryZdefiniowane) {
-                char nazwa = z.getNazwa();
+                int nazwa = z.getNazwa() - 'a';
                 tablicaParametrow[nazwa] = z;
             }
 
