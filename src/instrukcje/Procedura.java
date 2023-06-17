@@ -29,14 +29,14 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     protected Procedura(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         this.nazwa = nazwa;
         this.parametryPrzekazane = parametry;
-        this.deklaracje = deklaracje;
+        this.deklaracje = deklaracje == null ? new ArrayList<Deklaracja>() : deklaracje;
         this.instrukcje = instrukcje;
     }
 
     protected Procedura(char nazwa, ArrayList<Wyrazenie> parametry, Blok blok) {
         this.nazwa = nazwa;
         this.parametryPrzekazane = parametry;
-        this.deklaracje = blok.getDeklaracje();
+        this.deklaracje = blok.getDeklaracje() == null ? new ArrayList<Deklaracja>() : deklaracje;
         this.instrukcje = blok.getInstrukcje();
     }
 
@@ -179,9 +179,9 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
                 //this.instrukcje = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwaJakoIndeks])[nazwaJakoIndeks].instrukcje;
                 //this.parametryZdefiniowane = stosProcedur.elementAt(stosProcedur.size() - 1 - poprzedniPoziom[nazwaJakoIndeks])[nazwaJakoIndeks].parametryZdefiniowane;
 
-                for (int i = 0; i < poprzednieProcedury.length; i++) {
-                    System.out.println(poprzednieProcedury[i].wypisz(0));
-                }
+//                for (int i = 0; i < poprzednieProcedury.length; i++) {
+//                    System.out.println(poprzednieProcedury[i].wypisz(0));
+//                }
 
                 for (int i = 0; i < wartosciParametrow.size(); i++) {
                     System.out.println(wartosciParametrow.get(i));
