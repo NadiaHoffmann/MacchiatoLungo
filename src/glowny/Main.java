@@ -35,7 +35,7 @@ public class Main {
                 .wypisz(Dodawanie.doSiebie(Zmienna.oNazwie('y'), Zmienna.oNazwie('x')))
                 .zadeklarujProcedure("o", ListaZmiennych.jakich(Zmienna.oNazwie('a')),
                         new BudowniczyBloku()
-                        .przypiszWartoscZmiennej('x', Odejmowanie.odSiebie(Zmienna.oNazwie('x'), Zmienna.oNazwie('y')))
+                        .przypiszWartoscZmiennej('x', Odejmowanie.odSiebie(Zmienna.oNazwie('x'), Zmienna.oNazwie('a')))
                         .wypisz(Zmienna.oNazwie('x'))
                         .zbuduj()
                 )
@@ -50,6 +50,6 @@ public class Main {
                 .zbuduj();
 
         program.wykonaj();
-        //program.wykonajZOdpluskwiaczem();
+        program.wykonajZOdpluskwiaczem();
     }
 }
