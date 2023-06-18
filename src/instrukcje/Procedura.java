@@ -13,7 +13,6 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     private String nazwa;
     private ArrayList<Zmienna> parametryZdefiniowane;
     private ArrayList<Wyrazenie> parametryPrzekazane;
-    private ArrayList<Integer> wartosciParametrow;
     private ArrayList<Deklaracja> deklaracje;
     private ArrayList<Instrukcja> instrukcje;
 
@@ -77,8 +76,6 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     // czesc wspolna dla trzech powyzszych komend
     protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmienych)
             throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow, ProceduraJuzZadeklarowana {
-        this.wartosciParametrow = new ArrayList<>();
-
         if (stosProcedur.empty()) {
             throw new NiezadeklarowanaProcedura(nazwa);
         }
@@ -96,10 +93,6 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
                 if (this.parametryPrzekazane.size() != this.parametryPrzekazane.size()) {
                     throw new NiepoprawnaLiczbaParametrow(nazwa);
                 }
-            }
-
-            for (Wyrazenie w : parametryPrzekazane) {
-                wartosciParametrow.add(w.wartosc(stosZmiennych, stosPoziomowZmienych));
             }
 
             ArrayList<DeklaracjaZmiennej> zmienneParametryzowane = new ArrayList<>();
