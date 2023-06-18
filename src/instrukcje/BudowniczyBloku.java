@@ -7,8 +7,8 @@ import wyrazenia.Zmienna;
 import java.util.ArrayList;
 
 public class BudowniczyBloku implements BudowniczyInstrukcji {
-    private ArrayList<Instrukcja> instrukcje = new ArrayList<>();
-    private ArrayList<Deklaracja> deklaracje = new ArrayList<>();
+    private final ArrayList<Instrukcja> instrukcje = new ArrayList<>();
+    private final ArrayList<Deklaracja> deklaracje = new ArrayList<>();
 
     public BudowniczyBloku() {}
 
@@ -19,11 +19,6 @@ public class BudowniczyBloku implements BudowniczyInstrukcji {
 
     public BudowniczyBloku zadeklarujProcedure(String nazwa, ArrayList<Zmienna> parametry, Blok blok) {
         deklaracje.add(new DeklaracjaProcedury(nazwa, parametry, blok.getDeklaracje(), blok.getInstrukcje()));
-        return this;
-    }
-
-    public BudowniczyBloku zadeklarujProcedure(String nazwa, ArrayList<Zmienna> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
-        deklaracje.add(new DeklaracjaProcedury(nazwa, parametry, deklaracje, instrukcje));
         return this;
     }
 

@@ -3,26 +3,17 @@ package instrukcje;
 import wyjatki.*;
 import wyrazenia.Zmienna;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
 public class Program {
-    private Blok glowny;
+    private final Blok glowny;
     private Stack <Zmienna[]> stosZmiennych;
-
     private Stack<HashMap<String, Procedura>> stosProcedur;
     private Stack <Integer[]> stosPoziomowZmiennych;
-
-    private Program(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
-        this.glowny = new Blok(deklaracje, instrukcje);
-    }
-
     protected Program(Blok glowny) {
         this.glowny = glowny;
     }
-
-
 
     public void wykonaj() {
         try {
@@ -30,23 +21,20 @@ public class Program {
             this.stosPoziomowZmiennych = new Stack<>();
             this.stosProcedur = new Stack<>();
             glowny.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
-        }
-        catch (NiepoprawnaWartoscZmiennej e) {
+            System.out.println("Program zakonczyl dzialanie.");
+        } catch (NiepoprawnaWartoscZmiennej e) {
             System.out.println("Niepoprawna wartosc zmiennej w wyrazeniu " + e.getWyrazenie() + ".");
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
-        }
-         catch (ZmiennaJuzZadeklarowana e) {
-             System.out.println("Zmienna " + e.getNazwa() + " juz zostala zadeklarowana.");
-             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
-             System.exit(1);
-         }
-        catch (NiezadeklarowanaZmienna e) {
+        } catch (ZmiennaJuzZadeklarowana e) {
+            System.out.println("Zmienna " + e.getNazwa() + " juz zostala zadeklarowana.");
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
+            System.exit(1);
+        } catch (NiezadeklarowanaZmienna e) {
             System.out.println("Zmienna " + e.getNazwa() + " nie zostala zadeklarowana.");
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
-        }
-        catch (NiepoprawnaNazwaZmiennej e) {
+        } catch (NiepoprawnaNazwaZmiennej e) {
             System.out.println("Nazwa " + e.getNazwa() + " jest niepoprawna. Poprawne nazwy to male litery od a do z.");
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
@@ -63,7 +51,7 @@ public class Program {
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         }
-    };
+    }
 
     public void wykonajZOdpluskwiaczem() {
         try {
@@ -76,6 +64,7 @@ public class Program {
             glowny.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
             odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
             glowny.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
+            System.out.println("Program zakonczyl dzialanie.");
         }
         catch (NiepoprawnaWartoscZmiennej e) {
             System.out.println("Niepoprawna wartosc zmiennej w wyrazeniu " + e.getWyrazenie() + ".");
@@ -114,20 +103,20 @@ public class Program {
     private void wypiszZmienne(Stack <Zmienna[]> stosZmiennych, Stack <Integer[]> stosPoziomow) {
         Zmienna[] tablicaZmiennych = stosZmiennych.peek();
         Integer[] tablicaPoziomow = stosPoziomow.peek();
-        String widoczneZmienne = "";
+        StringBuilder widoczneZmienne = new StringBuilder();
         for (int znak = 0; znak < ('z' - 'a' + 1); znak++) {
             int poziom = tablicaPoziomow[znak];
             if (poziom >= 0) {
                 int wartosc = tablicaZmiennych[znak].getWartosc();
                 char nazwa = (char) ('a' + znak);
-                widoczneZmienne += (nazwa + " = " + wartosc + '\n');
+                widoczneZmienne.append(nazwa).append(" = ").append(wartosc).append('\n');
             }
         }
 
-        if (widoczneZmienne.equals("")) {
+        if (widoczneZmienne.toString().equals("")) {
             System.out.println("Brak widocznych zmiennych na poziomie, na ktorym wystapil blad.");
         } else {
-            widoczneZmienne = widoczneZmienne.substring(0, widoczneZmienne.length() - 1);
+            widoczneZmienne = new StringBuilder(widoczneZmienne.substring(0, widoczneZmienne.length() - 1));
             System.out.println("Zmienne widoczne na poziomie, na ktorym wystapil blad:");
             System.out.println(widoczneZmienne);
         }

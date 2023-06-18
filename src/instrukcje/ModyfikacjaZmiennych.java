@@ -6,9 +6,10 @@ import wyrazenia.Zmienna;
 import java.util.Stack;
 
 public interface ModyfikacjaZmiennych {
-    default Zmienna getWartoscZmiennej(char nazwa, Stack<Zmienna[]> stosZmiennych, Stack<Integer[]> stosPoziomowZmiennych) throws NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
+    default Zmienna getWartoscZmiennej(char nazwa, Stack<Zmienna[]> stosZmiennych, Stack<Integer[]> stosPoziomowZmiennych)
+            throws NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
         int nazwaJakoIndeks = nazwa - 'a';
-        if (nazwaJakoIndeks < ('a' - 'a') || nazwaJakoIndeks >= ('z' - 'a' + 1)) {
+        if (nazwaJakoIndeks < 0 || nazwaJakoIndeks >= ('z' - 'a' + 1)) {
             throw new NiepoprawnaNazwaZmiennej(nazwa);
         }
 

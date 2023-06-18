@@ -9,16 +9,12 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class Blok extends Instrukcja {
-    private Zmienna[] zmienneZBloku;
-    private Integer[] poziomZmiennych;
-    private HashMap<String, Procedura> proceduryZBloku;
-
-    private ArrayList<Instrukcja> instrukcje;
-    private ArrayList<Deklaracja> deklaracje;
-    private ArrayList<DeklaracjaZmiennej> ukryteDeklaracjeZmiennych;
+    private final ArrayList<Instrukcja> instrukcje;
+    private final ArrayList<Deklaracja> deklaracje;
+    private final ArrayList<DeklaracjaZmiennej> ukryteDeklaracjeZmiennych;
     protected int licznikInstrukcji;
 
-    // konstruktor dla bloku w petli for
+    // konstruktor dla bloku w petli for i procedury
     protected Blok(ArrayList<Deklaracja> deklaracje, ArrayList<DeklaracjaZmiennej> ukryteDeklaracjeZmiennych, ArrayList<Instrukcja> instrukcje) {
         this.deklaracje = deklaracje == null ? new ArrayList<>() : deklaracje;
         this.ukryteDeklaracjeZmiennych = ukryteDeklaracjeZmiennych == null ? new ArrayList<>() : ukryteDeklaracjeZmiennych;
@@ -33,19 +29,12 @@ public class Blok extends Instrukcja {
         this.licznikInstrukcji = instrukcje.size();
     }
 
-    protected Blok(Blok blok) {
-        this.deklaracje = blok.getDeklaracje() == null ? new ArrayList<>() : deklaracje;
-        this.ukryteDeklaracjeZmiennych = new ArrayList<>();
-        this.instrukcje = blok.getInstrukcje();
-        this.licznikInstrukcji = instrukcje.size();
-    }
-
     protected Blok(){
-        this.deklaracje = new ArrayList<Deklaracja>();
+        this.deklaracje = new ArrayList<>();
         this.ukryteDeklaracjeZmiennych = new ArrayList<>();
         this.instrukcje = new ArrayList<>();
         this.licznikInstrukcji = 0;
-    };
+    }
 
     protected void dodajInstrukcje(Instrukcja instrukcja) {
         this.instrukcje.add(instrukcja);
@@ -69,45 +58,76 @@ public class Blok extends Instrukcja {
 
     @Override
     protected String wypisz(int liczbaTabow) {
-        String tab = "";
-        for (int i = 0; i < liczbaTabow; i++) {
-            tab += '\t';
-        }
-        String tekstBloku = tab + "begin blok\n";
+        StringBuilder tab = new StringBuilder();
+        tab.append("\t".repeat(Math.max(0, liczbaTabow)));
+        StringBuilder tekstBloku = new StringBuilder(tab + "begin blok\n");
         for (Deklaracja dz : this.deklaracje) {
-            tekstBloku += tab;
-            tekstBloku += dz.wypisz(liczbaTabow + 1);
-            tekstBloku += '\n';
+            tekstBloku.append(tab);
+            tekstBloku.append(dz.wypisz(liczbaTabow + 1));
+            tekstBloku.append('\n');
         }
 
         for (Instrukcja i : this.instrukcje) {
-            tekstBloku += tab;
-            tekstBloku += i.wypisz(liczbaTabow + 1);
-            tekstBloku += '\n';
+            tekstBloku.append(tab);
+            tekstBloku.append(i.wypisz(liczbaTabow + 1));
+            tekstBloku.append('\n');
         }
 
-        tekstBloku += tab + "end blok";
-        return tekstBloku;
+        tekstBloku.append(tab).append("end blok");
+        return tekstBloku.toString();
     }
 
-    @Override
-    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
-            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
-        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+    // czesc wspolna dla trzech ponizszych komend
+    private void czescWspolna(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmienych) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
+        Zmienna[] zmienneZBloku = new Zmienna['z' - 'a' + 1];
+        HashMap<String, Procedura> proceduryZBloku = new HashMap<>(10);
+        Integer[] poziomZmiennych = new Integer['z' - 'a' + 1];
 
-        for (Deklaracja dz : deklaracje) {
-            odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
-            dz.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
+        if (stosPoziomowZmienych.empty()) {
+            Arrays.fill(poziomZmiennych, -1);
+            for (int i = 0; i < ('z' -'a' + 1); i++) {
+                char nazwa = (char) ('a' + i);
+                zmienneZBloku[i] = new Zmienna(nazwa);
+            }
+        }
+        else {
+            Integer[] poprzedniPoziom = stosPoziomowZmienych.peek();
+            Zmienna[] poprzednieZmienne = stosZmiennych.peek();
+
+            for (int i = 0; i < ('z' - 'a' + 1); i++) {
+                char nazwa = (char) ('a' + i);
+                zmienneZBloku[i] = new Zmienna(nazwa);
+                if (poprzedniPoziom[i] == -1) {
+                    poziomZmiennych[i] = -1;
+                }
+                else {
+                    poziomZmiennych[i] = poprzedniPoziom[i] + 1;
+                    int wartosc = poprzednieZmienne[i].getWartosc();
+                    zmienneZBloku[i].setWartosc(wartosc);
+                }
+            }
         }
 
-        for (Instrukcja i : instrukcje) {
-            odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
-            i.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
+        if (stosProcedur.empty()) {
+            stosProcedur.push(new HashMap<>(10));
+        }
+        else {
+            HashMap<String, Procedura> poprzednieProcedury = stosProcedur.peek();
+            if (poprzednieProcedury != null) {
+                proceduryZBloku.putAll(poprzednieProcedury);
+            }
+            else {
+                proceduryZBloku = new HashMap<>(10);
+            }
         }
 
-        stosZmiennych.pop();
-        stosPoziomowZmiennych.pop();
-        stosProcedur.pop();
+        stosZmiennych.push(zmienneZBloku);
+        stosPoziomowZmienych.push(poziomZmiennych);
+        stosProcedur.push(proceduryZBloku);
+
+        for (DeklaracjaZmiennej dz : ukryteDeklaracjeZmiennych) {
+            dz.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmienych);
+        }
     }
 
     @Override
@@ -150,56 +170,23 @@ public class Blok extends Instrukcja {
         stosProcedur.pop();
     }
 
-    // czesc wspolna dla trzech powyzszych komend
-    private void czescWspolna(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmienych) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
-        this.zmienneZBloku = new Zmienna['z' - 'a' + 1];
-        this.proceduryZBloku = new HashMap<String, Procedura>(10);
-        this.poziomZmiennych = new Integer['z' - 'a' + 1];
+    @Override
+    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
+        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
 
-        if (stosPoziomowZmienych.empty()) {
-            Arrays.fill(this.poziomZmiennych, -1);
-            for (int i = 0; i < ('z' -'a' + 1); i++) {
-                char nazwa = (char) ('a' + i);
-                zmienneZBloku[i] = new Zmienna(nazwa);
-            }
-        }
-        else {
-            Integer[] poprzedniPoziom = stosPoziomowZmienych.peek();
-            Zmienna[] poprzednieZmienne = stosZmiennych.peek();
-
-            for (int i = 0; i < ('z' - 'a' + 1); i++) {
-                char nazwa = (char) ('a' + i);
-                zmienneZBloku[i] = new Zmienna(nazwa);
-                if (poprzedniPoziom[i] == -1) {
-                    this.poziomZmiennych[i] = -1;
-                }
-                else {
-                    this.poziomZmiennych[i] = poprzedniPoziom[i] + 1;
-                    int wartosc = poprzednieZmienne[i].getWartosc();
-                    zmienneZBloku[i].setWartosc(wartosc);
-                }
-            }
+        for (Deklaracja dz : deklaracje) {
+            odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
+            dz.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
         }
 
-        if (stosProcedur.empty()) {
-            stosProcedur.push(new HashMap<String,Procedura>(10));
-        }
-        else {
-            HashMap<String, Procedura> poprzednieProcedury = stosProcedur.peek();
-            if (poprzednieProcedury != null) {
-                this.proceduryZBloku.putAll(poprzednieProcedury);
-            }
-            else {
-                this.proceduryZBloku = new HashMap<String, Procedura>(10);
-            }
+        for (Instrukcja i : instrukcje) {
+            odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
+            i.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
         }
 
-        stosZmiennych.push(zmienneZBloku);
-        stosPoziomowZmienych.push(poziomZmiennych);
-        stosProcedur.push(proceduryZBloku);
-
-        for (DeklaracjaZmiennej dz : ukryteDeklaracjeZmiennych) {
-            dz.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmienych);
-        }
+        stosZmiennych.pop();
+        stosPoziomowZmiennych.pop();
+        stosProcedur.pop();
     }
 }

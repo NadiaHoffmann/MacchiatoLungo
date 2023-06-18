@@ -62,7 +62,7 @@ public class Odpluskwiacz {
                 }
             }
             else if (this.instrukcjaDebuggera == 'c') {
-                if (this.liczbaInstrukcjiWProgramie == 0) {
+                if (this.liczbaInstrukcjiWProgramie < 0) {
                     System.out.println("Program zakonczyl dzialanie.");
                 }
             }
@@ -123,20 +123,20 @@ public class Odpluskwiacz {
                         } else {
                             Integer[] poziomyZmiennychZPoziomu = stosPoziomowZmiennych.elementAt(liczbaPoziomow);
                             Zmienna[] tablicaZmiennychZPoziomu = stosZmiennych.elementAt(liczbaPoziomow);
-                            String widoczneZmienne = "";
+                            StringBuilder widoczneZmienne = new StringBuilder();
                             for (int znak = 0; znak < ('z' - 'a' + 1); znak++) {
                                 int poziom = poziomyZmiennychZPoziomu[znak];
                                 if (poziom >= 0) {
                                     int wartosc = tablicaZmiennychZPoziomu[znak].getWartosc();
                                     char nazwa = (char) ('a' + znak);
-                                    widoczneZmienne += (nazwa + " = " + wartosc + '\n');
+                                    widoczneZmienne.append(nazwa).append(" = ").append(wartosc).append('\n');
                                 }
                             }
 
-                            if (widoczneZmienne.equals("")) {
+                            if (widoczneZmienne.toString().equals("")) {
                                 System.out.println("Brak widocznych zmiennych na poziomie " + liczbaPoziomow + ".");
                             } else {
-                                widoczneZmienne = widoczneZmienne.substring(0, widoczneZmienne.length() - 1);
+                                widoczneZmienne = new StringBuilder(widoczneZmienne.substring(0, widoczneZmienne.length() - 1));
                                 System.out.println("Zmienne widoczne na poziomie " + liczbaPoziomow + ":");
                                 System.out.println(widoczneZmienne);
                             }
@@ -152,17 +152,17 @@ public class Odpluskwiacz {
                         Integer[] poziomyZmiennychZPoziomu = stosPoziomowZmiennych.peek();
                         Zmienna[] tablicaZmiennychZPoziomu = stosZmiennych.peek();
 
-                        String widoczneZmienne = "";
+                        StringBuilder widoczneZmienne = new StringBuilder();
                         for (int znak = 0; znak < ('z' - 'a' + 1); znak++) {
                             int poziom = poziomyZmiennychZPoziomu[znak];
                             if (poziom >= 0) {
                                 int wartosc = tablicaZmiennychZPoziomu[znak].getWartosc();
                                 char nazwa = (char) ('a' + znak);
-                                widoczneZmienne += (nazwa + " = " + wartosc + '\n');
+                                widoczneZmienne.append(nazwa).append(" = ").append(wartosc).append('\n');
                             }
                         }
 
-                        if (widoczneZmienne.equals("")) {
+                        if (widoczneZmienne.toString().equals("")) {
                             daneDoZapisu += "brak";
                         } else {
                             daneDoZapisu += widoczneZmienne;
@@ -171,21 +171,21 @@ public class Odpluskwiacz {
                         daneDoZapisu += "Widoczne procedury: \n";
 
                         HashMap<String, Procedura> mapaProcedurZPoziomu = stosProcedur.peek();
-                        String widoczneProcedury = "";
+                        StringBuilder widoczneProcedury = new StringBuilder();
 
                         for (String nazwa : mapaProcedurZPoziomu.keySet()) {
                             ArrayList<Zmienna> parametryZProcedury = mapaProcedurZPoziomu.get(nazwa).getParametry();
 
-                            String parametry = "";
+                            StringBuilder parametry = new StringBuilder();
                             for (Zmienna z : parametryZProcedury) {
-                                parametry += (z.toString() + ", ");
+                                parametry.append(z.toString()).append(", ");
                             }
 
-                            parametry = parametry.substring(0, parametry.length() - 2);
-                            widoczneProcedury += (nazwa + "(" + parametry + ")\n");
+                            parametry = new StringBuilder(parametry.substring(0, parametry.length() - 2));
+                            widoczneProcedury.append(nazwa).append("(").append(parametry).append(")\n");
                         }
 
-                        if (widoczneProcedury.equals("")) {
+                        if (widoczneProcedury.toString().equals("")) {
                             daneDoZapisu += "brak";
                         } else {
                             daneDoZapisu += widoczneProcedury;
@@ -197,6 +197,7 @@ public class Odpluskwiacz {
                             FileWriter zapisywacz = new FileWriter(sciezkaPliku);
                             zapisywacz.write(daneDoZapisu);
                             zapisywacz.close();
+                            System.out.println("Utworzono plik " + sciezkaPliku + ".");
                         }
                         catch (IOException e) {
                             System.out.println("Zapis do pliku " + sciezkaPliku + " nie powiódł się.");

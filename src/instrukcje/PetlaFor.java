@@ -10,8 +10,8 @@ import java.util.Stack;
 public class PetlaFor extends Instrukcja {
     private final char nazwa;
     private int granica;
-    private Wyrazenie wyrazenie;
-    private ArrayList<Instrukcja> instrukcje;
+    private final Wyrazenie wyrazenie;
+    private final ArrayList<Instrukcja> instrukcje;
 
     protected PetlaFor(char nazwa, Wyrazenie wyrazenie, ArrayList<Instrukcja> instrukcje) {
         this.nazwa = nazwa;
@@ -21,19 +21,17 @@ public class PetlaFor extends Instrukcja {
 
     @Override
     protected String wypisz(int liczbaTabow) {
-        String tab = "";
-        for (int i = 0; i < liczbaTabow; i++) {
-            tab += '\t';
-        }
+        StringBuilder tab = new StringBuilder();
+        tab.append("\t".repeat(Math.max(0, liczbaTabow)));
 
-        String tekst = tab + "for (" + this.nazwa + " -> " + this.wyrazenie + ")\n"/*[" + this.wyrazenie + " = " + + "]\n"*/;
+        StringBuilder tekst = new StringBuilder(tab + "for (" + this.nazwa + " -> " + this.wyrazenie + ")\n");
         for (Instrukcja i : instrukcje) {
-            tekst += tab;
-            tekst += i.wypisz(liczbaTabow + 1);
-            tekst += '\n';
+            tekst.append(tab);
+            tekst.append(i.wypisz(liczbaTabow + 1));
+            tekst.append('\n');
         }
-        tekst = tekst.substring(0, tekst.length() - 1);
-        return tekst;
+        tekst = new StringBuilder(tekst.substring(0, tekst.length() - 1));
+        return tekst.toString();
     }
 
     @Override

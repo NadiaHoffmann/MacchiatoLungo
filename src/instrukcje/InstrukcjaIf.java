@@ -9,8 +9,9 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class InstrukcjaIf extends Instrukcja {
-    private Porownanie porownanie;
-    private ArrayList<Instrukcja> instrukcjeIf, instrukcjeElse;
+    private final Porownanie porownanie;
+    private final ArrayList<Instrukcja> instrukcjeIf;
+    private ArrayList<Instrukcja> instrukcjeElse;
 
     // konstruktor dla If
     protected InstrukcjaIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf) {
@@ -27,31 +28,30 @@ public class InstrukcjaIf extends Instrukcja {
 
     @Override
     protected String wypisz(int liczbaTabow) {
-        String tab = "";
-        for (int i = 0; i < liczbaTabow; i++) {
-            tab += '\t';
-        }
+        StringBuilder tab = new StringBuilder();
+        tab.append("\t".repeat(Math.max(0, liczbaTabow)));
 
-        String tekst = "\tif (" + porownanie + ")\n";
+        StringBuilder tekst = new StringBuilder("\tif (" + porownanie + ")\n");
         for (Instrukcja i : instrukcjeIf) {
-            tekst += tab;
-            tekst += i.wypisz(liczbaTabow + 1);
-            tekst += '\n';
+            tekst.append(tab);
+            tekst.append(i.wypisz(liczbaTabow + 1));
+            tekst.append('\n');
         }
         if (instrukcjeElse != null) {
-            tekst += "\telse\n";
+            tekst.append("\telse\n");
             for (Instrukcja i : instrukcjeElse) {
-                tekst += tab;
-                tekst += i.wypisz(liczbaTabow + 1);
-                tekst += '\n';
+                tekst.append(tab);
+                tekst.append(i.wypisz(liczbaTabow + 1));
+                tekst.append('\n');
             }
         }
-        tekst = tekst.substring(0, tekst.length() - 1);
-        return tekst;
+        tekst = new StringBuilder(tekst.substring(0, tekst.length() - 1));
+        return tekst.toString();
     }
 
     @Override
-    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych) throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
+    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych)
+            throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
         if (porownanie.ewaluuj(stosZmiennych, stosPoziomowZmiennych)) {
             for (Instrukcja i : instrukcjeIf) {
                 i.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
@@ -65,7 +65,8 @@ public class InstrukcjaIf extends Instrukcja {
     }
 
     @Override
-    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
+    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
         if (porownanie.ewaluuj(stosZmiennych, stosPoziomowZmiennych)) {
             for (Instrukcja i : instrukcjeIf) {
                 odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, i);
@@ -83,7 +84,8 @@ public class InstrukcjaIf extends Instrukcja {
     }
 
     @Override
-    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
+    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
         if (porownanie.ewaluuj(stosZmiennych, stosPoziomowZmiennych)) {
             for (Instrukcja i : instrukcjeIf) {
                 odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();

@@ -1,7 +1,6 @@
 package instrukcje;
 
 import wyjatki.*;
-import wyrazenia.Wyrazenie;
 import wyrazenia.Zmienna;
 
 import java.util.ArrayList;
@@ -9,10 +8,10 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class DeklaracjaProcedury extends Deklaracja {
-    private String nazwa;
-    private ArrayList<Zmienna> parametry;
-    private ArrayList<Deklaracja> deklaracje;
-    private ArrayList<Instrukcja> instrukcje;
+    private final String nazwa;
+    private final ArrayList<Zmienna> parametry;
+    private final ArrayList<Deklaracja> deklaracje;
+    private final ArrayList<Instrukcja> instrukcje;
 
     protected DeklaracjaProcedury(String nazwa, ArrayList<Zmienna> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         this.nazwa = nazwa;
@@ -21,61 +20,44 @@ public class DeklaracjaProcedury extends Deklaracja {
         this.instrukcje = instrukcje;
     }
 
-    protected DeklaracjaProcedury(String nazwa, ArrayList<Zmienna> parametry, Blok blok) {
-        this.nazwa = nazwa;
-        this.parametry = parametry;
-        this.deklaracje = blok.getDeklaracje();
-        this.instrukcje = blok.getInstrukcje();
-    }
-
     @Override
     protected String wypisz(int liczbaTabow) {
-        String tab = "";
-        for (int i = 0; i < liczbaTabow; i++) {
-            tab += '\t';
-        }
-        String tekstProcedury = tab + "begin procedura " + nazwa + "(" + parametry + ")\n";
-        tab += '\t';
+        StringBuilder tab = new StringBuilder();
+        tab.append("\t".repeat(Math.max(0, liczbaTabow)));
+        StringBuilder tekstProcedury = new StringBuilder(tab + "begin procedura " + nazwa + "(" + parametry + ")\n");
+        tab.append('\t');
         for (Deklaracja dz : this.deklaracje) {
-            tekstProcedury += tab;
-            tekstProcedury += dz.wypisz(liczbaTabow + 1);
-            tekstProcedury += '\n';
+            tekstProcedury.append(tab);
+            tekstProcedury.append(dz.wypisz(liczbaTabow + 1));
+            tekstProcedury.append('\n');
         }
 
         for (Instrukcja i : this.instrukcje) {
-            tekstProcedury += tab;
-            tekstProcedury += i.wypisz(liczbaTabow + 1);
-            tekstProcedury += '\n';
+            tekstProcedury.append(tab);
+            tekstProcedury.append(i.wypisz(liczbaTabow + 1));
+            tekstProcedury.append('\n');
         }
 
-        tekstProcedury += tab + "end procedura " + nazwa + "\n";
-        return tekstProcedury;
+        tekstProcedury.append(tab).append("end procedura ").append(nazwa).append("\n");
+        return tekstProcedury.toString();
     }
 
     @Override
-    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych) throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
+    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych)
+            throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         HashMap<String, Procedura> mapaProcedurZBloku = stosProcedur.pop();
         if(mapaProcedurZBloku.containsKey(this.nazwa)) {
             throw new ProceduraJuzZadeklarowana(this.nazwa);
         }
         else {
-            System.out.println(nazwa);
-            for (Wyrazenie w : parametry) {
-                System.out.println(w.toString());
-            }
-            for (Deklaracja d : deklaracje) {
-                d.wypisz(0);
-            }
-            for(Instrukcja i :  instrukcje) {
-                i.wypisz(0);
-            }
             mapaProcedurZBloku.put(nazwa, new Procedura(nazwa, parametry, deklaracje, instrukcje));
             stosProcedur.push(mapaProcedurZBloku);
         }
     }
 
     @Override
-    protected void wykonajZOdpluskwiaczem(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
+    protected void wykonajZOdpluskwiaczem(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         try {
             this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
         } catch (NiezadeklarowanaProcedura niezadeklarowanaProcedura) {
@@ -84,7 +66,8 @@ public class DeklaracjaProcedury extends Deklaracja {
     }
 
     @Override
-    protected void policzInstrukcjeWProgramie(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
+    protected void policzInstrukcjeWProgramie(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         try {
             this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
         } catch (NiezadeklarowanaProcedura niezadeklarowanaProcedura) {
