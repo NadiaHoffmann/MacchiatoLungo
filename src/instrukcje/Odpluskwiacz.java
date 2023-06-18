@@ -3,13 +3,13 @@ package instrukcje;
 import wyjatki.NiepoprawnaLiczbaKrokow;
 import wyjatki.NiepoprawnyPoziom;
 import wyjatki.PustaKomenda;
-import wyrazenia.Wyrazenie;
 import wyrazenia.Zmienna;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -43,7 +43,7 @@ public class Odpluskwiacz {
         this.liczbaKrokow = licznik;
     }
 
-    protected void puscOdpluskwiacz(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Instrukcja instrukcja) {
+    protected void puscOdpluskwiacz(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Instrukcja instrukcja) {
         char obecnaInstrukcjaDebuggera = this.instrukcjaDebuggera;
 
         try {

@@ -1,18 +1,17 @@
 package instrukcje;
 
-import porownania.Porownanie;
 import wyjatki.*;
-import wyrazenia.Wyrazenie;
 import wyrazenia.Zmienna;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Stack;
 
 public class Blok extends Instrukcja {
     private Zmienna[] zmienneZBloku;
     private Integer[] poziomZmiennych;
-    private Procedura[] proceduryZBloku;
+    private HashMap<String, Procedura> proceduryZBloku;
     private Integer[] poziomProcedur;
 
     private ArrayList<Instrukcja> instrukcje;
@@ -93,7 +92,7 @@ public class Blok extends Instrukcja {
     }
 
     @Override
-    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz)
+    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz)
             throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
 
@@ -114,7 +113,7 @@ public class Blok extends Instrukcja {
     }
 
     @Override
-    protected void wykonaj(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur)
+    protected void wykonaj(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur)
             throws NiepoprawnaWartoscZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
 
@@ -132,7 +131,7 @@ public class Blok extends Instrukcja {
     }
 
     @Override
-    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz)
+    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz)
             throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
 
@@ -156,9 +155,9 @@ public class Blok extends Instrukcja {
     }
 
     // czesc wspolna dla trzech powyzszych komend
-    private void czescWspolna(Stack<Zmienna[]> stosZmiennych, Stack<Procedura[]> stosProcedur, Stack<Integer[]> stosPoziomowZmienych, Stack<Integer[]> stosPoziomowProcedur) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
+    private void czescWspolna(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmienych, Stack<Integer[]> stosPoziomowProcedur) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna {
         this.zmienneZBloku = new Zmienna['z' - 'a' + 1];
-        this.proceduryZBloku = new Procedura['z' - 'a' + 1];
+        this.proceduryZBloku = new HashMap<String, Procedura>(10);
         this.poziomZmiennych = new Integer['z' - 'a' + 1];
         this.poziomProcedur = new Integer['z' - 'a' + 1];
 
@@ -196,8 +195,9 @@ public class Blok extends Instrukcja {
         }
         else {
             Integer[] poprzedniPoziom = stosPoziomowProcedur.peek();
-            Procedura[] poprzednieProcedury = stosProcedur.peek();
+            HashMap<String, Procedura> poprzednieProcedury = stosProcedur.peek();
 
+            // DO ZMIANY!
             for (int i = 0; i < ('z' - 'a' + 1); i++) {
                 char nazwa = (char) ('a' + i);
                 proceduryZBloku[i] = new Procedura(nazwa);

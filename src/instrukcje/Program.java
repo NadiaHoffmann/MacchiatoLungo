@@ -4,13 +4,14 @@ import wyjatki.*;
 import wyrazenia.Zmienna;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 public class Program {
     private Blok glowny;
     private Stack <Zmienna[]> stosZmiennych;
 
-    private Stack<Procedura[]> stosProcedur;
+    private Stack<HashMap<String, Procedura>> stosProcedur;
     private Stack <Integer[]> stosPoziomowZmiennych;
 
     private Stack <Integer[]> stosPoziomowProcedur;
