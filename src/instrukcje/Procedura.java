@@ -72,78 +72,11 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
         return tekstProcedury;
     }
 
-    @Override
-    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych)
-            throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
-        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
 
-        for (Deklaracja dz : deklaracje) {
-            dz.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
-        }
-
-        for (Instrukcja i : instrukcje) {
-            i.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
-        }
-        stosZmiennych.pop();
-        stosPoziomowZmiennych.pop();
-        stosProcedur.pop();
-    }
-
-    @Override
-    protected void wykonajZOdpluskwiaczem(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
-            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
-        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
-
-        for (Deklaracja dz : deklaracje) {
-            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, dz);
-            odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
-            dz.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
-        }
-
-
-        for (Instrukcja instrukcja : instrukcje) {
-            odpluskwiacz.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, instrukcja);
-            odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
-            instrukcja.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
-        }
-
-        stosZmiennych.pop();
-        stosPoziomowZmiennych.pop();
-        stosProcedur.pop();
-    }
-
-    @Override
-    protected void policzInstrukcjeWProgramie(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
-            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
-        this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
-
-        for (Deklaracja dz : deklaracje) {
-            odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
-            dz.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
-        }
-
-        for (Instrukcja i : instrukcje) {
-            odpluskwiacz.zwiekszLicznikInstrukcjiWProgramie();
-            i.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
-        }
-
-        stosZmiennych.pop();
-        stosPoziomowZmiennych.pop();
-        stosProcedur.pop();
-    }
-
-    @Override
-    public Zmienna getWartoscZmiennej(char nazwa, Stack<Zmienna[]> stosZmiennych, Stack<Integer[]> stosPoziomowZmiennych) throws NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
-        return ModyfikacjaZmiennych.super.getWartoscZmiennej(nazwa, stosZmiennych, stosPoziomowZmiennych);
-    }
 
     // czesc wspolna dla trzech powyzszych komend
-    private void czescWspolna(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmienych)
-            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
-        this.zmienneZProcedury = new Zmienna['z' - 'a' + 1];
-        this.proceduryZProcedury = new HashMap<String, Procedura>(10);
-        this.poziomZmiennych = new Integer['z' - 'a' + 1];
-
+    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmienych)
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow, ProceduraJuzZadeklarowana {
         if (stosProcedur.empty()) {
             throw new NiezadeklarowanaProcedura(nazwa);
         }
@@ -167,29 +100,35 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
                 wartosciParametrow.add(w.wartosc(stosZmiennych, stosPoziomowZmienych));
             }
 
-            for (int i = 0; i < ; i++) {
-                char nazwa = (char) ('a' + i);
-                if (poprzedniPoziom[i] == -1) {
-                    this.poziomProcedur[i] = -1;
-                    proceduryZProcedury[i] = new Procedura(nazwa);
-                }
-                else {
-                    proceduryZProcedury[i] = poprzednieProcedury[i];
-                }
-            }
-        }
-        stosProcedur.push(proceduryZProcedury);
+            ArrayList<DeklaracjaZmiennej> zmienneParametryzowane = new ArrayList<>();
 
+            for (int i = 0; i < this.parametryZdefiniowane.size(); i++) {
+                char nazwa = this.parametryZdefiniowane.get(i).getNazwa();
+                Wyrazenie wyrazenie = this.parametryPrzekazane.get(i);
+
+                zmienneParametryzowane.add(new DeklaracjaZmiennej(nazwa, wyrazenie));
+            }
+
+            Blok blokProcedury = new Blok(deklaracje, zmienneParametryzowane, instrukcje);
+            blokProcedury.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmienych);
+        }
     }
 
-    private int znajdz(ArrayList<Zmienna> parametryZdefiniowane, char nazwa) {
-        for (int i = 0; i < parametryZdefiniowane.size(); i++) {
-            if (parametryZdefiniowane.get(i).getNazwa() == nazwa) {
-                return i;
-            }
-        }
+    @Override
+    protected void wykonajZOdpluskwiaczem(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
+        this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+    }
 
-        return -1;
+    @Override
+    protected void policzInstrukcjeWProgramie(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
+        this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+    }
+
+    @Override
+    public Zmienna getWartoscZmiennej(char nazwa, Stack<Zmienna[]> stosZmiennych, Stack<Integer[]> stosPoziomowZmiennych) throws NiezadeklarowanaZmienna, NiepoprawnaNazwaZmiennej {
+        return ModyfikacjaZmiennych.super.getWartoscZmiennej(nazwa, stosZmiennych, stosPoziomowZmiennych);
     }
 }
 
