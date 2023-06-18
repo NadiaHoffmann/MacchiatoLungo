@@ -27,13 +27,13 @@ public class BudowniczyBloku implements BudowniczyInstrukcji {
         return this;
     }
 
-    public BudowniczyBloku wywolajInstrukcjeIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf) {
-        instrukcje.add(new InstrukcjaIf(porownanie, instrukcjeIf));
+    public BudowniczyBloku wywolajInstrukcjeIf(Porownanie porownanie, Blok instrukcjeIf) {
+        instrukcje.add(new InstrukcjaIf(porownanie, instrukcjeIf.getInstrukcje()));
         return this;
     }
 
-    public BudowniczyBloku wywolajInstrukcjeIfElse(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf, ArrayList<Instrukcja> instrukcjeElse) {
-        instrukcje.add(new InstrukcjaIf(porownanie, instrukcjeIf, instrukcjeElse));
+    public BudowniczyBloku wywolajInstrukcjeIfElse(Porownanie porownanie, Blok instrukcjeIf, Blok instrukcjeElse) {
+        instrukcje.add(new InstrukcjaIf(porownanie, instrukcjeIf.getInstrukcje(), instrukcjeElse.getInstrukcje()));
         return this;
     }
 
@@ -42,8 +42,8 @@ public class BudowniczyBloku implements BudowniczyInstrukcji {
         return this;
     }
 
-    public BudowniczyBloku wywolajPetleFor(char nazwa, Wyrazenie wyrazenie, ArrayList<Instrukcja> instrukcje) {
-        instrukcje.add(new PetlaFor(nazwa, wyrazenie, instrukcje));
+    public BudowniczyBloku wywolajPetleFor(char nazwa, Wyrazenie wyrazenie, Blok instrukcjeFor) {
+        instrukcje.add(new PetlaFor(nazwa, wyrazenie, instrukcjeFor.getInstrukcje()));
         return this;
     }
 

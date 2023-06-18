@@ -29,14 +29,14 @@ public class BudowniczyProgramu implements BudowniczyInstrukcji {
         return this;
     }
 
-    public BudowniczyProgramu wywolajInstrukcjeIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf) {
-        glowny.dodajInstrukcje(new InstrukcjaIf(porownanie, instrukcjeIf));
+    public BudowniczyProgramu wywolajInstrukcjeIf(Porownanie porownanie, Blok instrukcjeIf) {
+        glowny.dodajInstrukcje(new InstrukcjaIf(porownanie, instrukcjeIf.getInstrukcje()));
         glowny.zwiekszLiczbeInstrukcji();
         return this;
     }
 
-    public BudowniczyProgramu wywolajInstrukcjeIfElse(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf, ArrayList<Instrukcja> instrukcjeElse) {
-        glowny.dodajInstrukcje(new InstrukcjaIf(porownanie, instrukcjeIf, instrukcjeElse));
+    public BudowniczyProgramu wywolajInstrukcjeIfElse(Porownanie porownanie, Blok instrukcjeIf, Blok instrukcjeElse) {
+        glowny.dodajInstrukcje(new InstrukcjaIf(porownanie, instrukcjeIf.getInstrukcje(), instrukcjeElse.getInstrukcje()));
         glowny.zwiekszLiczbeInstrukcji();
         return this;
     }
@@ -47,8 +47,8 @@ public class BudowniczyProgramu implements BudowniczyInstrukcji {
         return this;
     }
 
-    public BudowniczyProgramu wywolajPetleFor(char nazwa, Wyrazenie wyrazenie, ArrayList<Instrukcja> instrukcje) {
-        glowny.dodajInstrukcje(new PetlaFor(nazwa, wyrazenie, instrukcje));
+    public BudowniczyProgramu wywolajPetleFor(char nazwa, Wyrazenie wyrazenie, Blok instrukcjeFor) {
+        glowny.dodajInstrukcje(new PetlaFor(nazwa, wyrazenie, instrukcjeFor.getInstrukcje()));
         glowny.zwiekszLiczbeInstrukcji();
         return this;
     }

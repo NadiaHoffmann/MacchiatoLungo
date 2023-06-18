@@ -13,13 +13,13 @@ public interface BudowniczyInstrukcji {
 
     BudowniczyInstrukcji wywolajProcedure(String nazwa, ArrayList<Wyrazenie> parametry);
 
-    BudowniczyInstrukcji wywolajInstrukcjeIf(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf);
+    BudowniczyInstrukcji wywolajInstrukcjeIf(Porownanie porownanie, Blok instrukcjeIf);
 
-    BudowniczyInstrukcji wywolajInstrukcjeIfElse(Porownanie porownanie, ArrayList<Instrukcja> instrukcjeIf, ArrayList<Instrukcja> instrukcjeElse);
+    BudowniczyInstrukcji wywolajInstrukcjeIfElse(Porownanie porownanie, Blok instrukcjeIf, Blok instrukcjeElse);
 
     BudowniczyInstrukcji wypisz(Wyrazenie wyrazenie);
 
-    BudowniczyInstrukcji wywolajPetleFor(char nazwa, Wyrazenie wyrazenie, ArrayList<Instrukcja> instrukcje);
+    BudowniczyInstrukcji wywolajPetleFor(char nazwa, Wyrazenie wyrazenie, Blok instrukcjeFor);
 
     BudowniczyInstrukcji przypiszWartoscZmiennej(char nazwa, Wyrazenie wyrazenie);
 
