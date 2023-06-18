@@ -14,8 +14,6 @@ public class Program {
     private Stack<HashMap<String, Procedura>> stosProcedur;
     private Stack <Integer[]> stosPoziomowZmiennych;
 
-    private Stack <Integer[]> stosPoziomowProcedur;
-
     private Program(ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         this.glowny = new Blok(deklaracje, instrukcje);
     }
@@ -30,9 +28,8 @@ public class Program {
         try {
             this.stosZmiennych = new Stack<>();
             this.stosPoziomowZmiennych = new Stack<>();
-            this.stosPoziomowProcedur = new Stack<>();
             this.stosProcedur = new Stack<>();
-            glowny.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
+            glowny.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
         }
         catch (NiepoprawnaWartoscZmiennej e) {
             System.out.println("Niepoprawna wartosc zmiennej w wyrazeniu " + e.getWyrazenie() + ".");
@@ -73,13 +70,12 @@ public class Program {
             this.stosZmiennych = new Stack<>();
             this.stosProcedur = new Stack<>();
             this.stosPoziomowZmiennych = new Stack<>();
-            this.stosPoziomowProcedur = new Stack<>();
             Odpluskwiacz odpluskwiacz = new Odpluskwiacz();
 
             // policzInstrukcjeWProgramie wykonuje program, liczac kolejne kroki
-            glowny.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
+            glowny.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
             odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
-            glowny.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
+            glowny.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
         }
         catch (NiepoprawnaWartoscZmiennej e) {
             System.out.println("Niepoprawna wartosc zmiennej w wyrazeniu " + e.getWyrazenie() + ".");

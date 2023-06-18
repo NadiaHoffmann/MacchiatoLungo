@@ -43,7 +43,7 @@ public class Odpluskwiacz {
         this.liczbaKrokow = licznik;
     }
 
-    protected void puscOdpluskwiacz(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<Integer[]> stosPoziomowProcedur, Instrukcja instrukcja) {
+    protected void puscOdpluskwiacz(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Instrukcja instrukcja) {
         char obecnaInstrukcjaDebuggera = this.instrukcjaDebuggera;
 
         try {
@@ -143,7 +143,7 @@ public class Odpluskwiacz {
 
                             this.ustawLicznik(-1);
                             this.ustawInstrukcjeDebugera('.');
-                            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
+                            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, instrukcja);
                         }
                     }
                     case 'm' -> {
@@ -170,25 +170,19 @@ public class Odpluskwiacz {
 
                         daneDoZapisu += "Widoczne procedury: \n";
 
-                        Integer[] poziomyProcedurZPoziomu = stosPoziomowProcedur.peek();
-                        Procedura[] tablicaProcedurZPoziomu = stosProcedur.peek();
+                        HashMap<String, Procedura> mapaProcedurZPoziomu = stosProcedur.peek();
                         String widoczneProcedury = "";
 
-                        for (int znak = 0; znak < ('z' - 'a' + 1); znak++) {
-                            int poziom = poziomyProcedurZPoziomu[znak];
-                            if (poziom >= 0) {
-                                String parametry = "";
-                                ArrayList<Zmienna> parametryZProcedury = tablicaProcedurZPoziomu[znak].getParametry();
+                        for (String nazwa : mapaProcedurZPoziomu.keySet()) {
+                            ArrayList<Zmienna> parametryZProcedury = mapaProcedurZPoziomu.get(nazwa).getParametry();
 
-                                for (Zmienna z : parametryZProcedury) {
-                                    parametry += (z.toString() + ", ");
-                                }
-
-                                parametry = parametry.substring(0, parametry.length() - 2);
-
-                                char nazwa = (char) ('a' + znak);
-                                widoczneProcedury += (nazwa + " ( " + parametry + ")\n");
+                            String parametry = "";
+                            for (Zmienna z : parametryZProcedury) {
+                                parametry += (z.toString() + ", ");
                             }
+
+                            parametry = parametry.substring(0, parametry.length() - 2);
+                            widoczneProcedury += (nazwa + "(" + parametry + ")\n");
                         }
 
                         if (widoczneProcedury.equals("")) {
@@ -210,12 +204,12 @@ public class Odpluskwiacz {
 
                         this.ustawLicznik(-1);
                         this.ustawInstrukcjeDebugera('.');
-                        this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
+                        this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, instrukcja);
                     }
                     default -> {
                         System.out.println(znakInstrukcji + " nie jest poprawna instrukcja odpluskwiacza.");
                         System.out.println("Dostepne instrukcje: c(ontinue), s(tep) <liczba>, d(isplay) <liczba>, e(xit).");
-                        this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
+                        this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, instrukcja);
                     }
                 }
             }
@@ -223,17 +217,17 @@ public class Odpluskwiacz {
         catch (PustaKomenda e) {
             System.out.println("Nie zostala wpisana zadna komenda.");
             System.out.println("Dostepne instrukcje: c(ontinue), s(tep) <liczba>, d(isplay) <liczba>, e(xit).");
-            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
+            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, instrukcja);
         }
         catch (NiepoprawnaLiczbaKrokow e) {
             System.out.println(e.getLiczba() + " nie jest poprawna liczba krokow.");
             System.out.println("Poprawna liczba krokow jest wieksza od 0.");
-            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
+            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, instrukcja);
         }
         catch (NiepoprawnyPoziom e) {
             System.out.println(e.getLiczba() + " nie jest poprawnym poziomem.");
             System.out.println("Poprawny poziom jest wiekszy rowny 0 i mniejszy od " + stosPoziomowZmiennych.size() + ".");
-            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, instrukcja);
+            this.puscOdpluskwiacz(stosZmiennych, stosProcedur, stosPoziomowZmiennych, instrukcja);
         }
 
     }
