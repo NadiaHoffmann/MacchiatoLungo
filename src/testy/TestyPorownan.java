@@ -5,9 +5,7 @@ import instrukcje.BudowniczyProgramu;
 import instrukcje.Program;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import porownania.Mniejsze;
-import porownania.MniejszeRowne;
-import porownania.Rowne;
+import porownania.*;
 import wyrazenia.*;
 
 import java.io.ByteArrayOutputStream;
@@ -150,5 +148,86 @@ public class TestyPorownan {
                 .replace("Program zakonczyl dzialanie.", ""));
     }
 
+    @Test
+    public void TestWieksze1(){
+        Program program = new BudowniczyProgramu()
+                .zadeklarujZmienna('x', Literal.oWartosci(84))
+                .zadeklarujZmienna('z', Dodawanie.doSiebie(Literal.oWartosci(69), Zmienna.oNazwie('x')))
+                .wywolajInstrukcjeIf(Wieksze.coOdCzego(Zmienna.oNazwie('z'), Zmienna.oNazwie('x')),
+                        new BudowniczyBloku()
+                                .wypisz(Zmienna.oNazwie('z'))
+                                .zbuduj())
+                .zbuduj();
 
+        program.wykonaj();
+
+        assertEquals("153", ciagNaWyjsciu
+                .toString().trim().replace("\n", "")
+                .replace("\r", "")
+                .replace("Program zakonczyl dzialanie.", ""));
+    }
+    @Test
+    public void TestWieksze2(){
+        Program program = new BudowniczyProgramu()
+                .zadeklarujZmienna('x', Literal.oWartosci(1))
+                .zadeklarujZmienna('z', Literal.oWartosci(1))
+                .wywolajInstrukcjeIf(Wieksze.coOdCzego(Zmienna.oNazwie('z'), Zmienna.oNazwie('x')),
+                        new BudowniczyBloku()
+                                .wypisz(Zmienna.oNazwie('z'))
+                                .zbuduj())
+                .zbuduj();
+
+        program.wykonaj();
+
+        assertEquals("", ciagNaWyjsciu
+                .toString().trim().replace("\n", "")
+                .replace("\r", "")
+                .replace("Program zakonczyl dzialanie.", ""));
+    }
+
+    @Test
+    public void TestWiekszeRowne1(){
+        Program program = new BudowniczyProgramu()
+                .zadeklarujZmienna('x', Modulo.z(Literal.oWartosci(2137), Literal.oWartosci(65)))
+                .zadeklarujZmienna('z', Literal.oWartosci(56))
+                .wywolajInstrukcjeIfElse(WiekszeRowne.coOdCzego(Zmienna.oNazwie('x'), Zmienna.oNazwie('z')),
+                        new BudowniczyBloku()
+                                .wypisz(Dodawanie.doSiebie(Zmienna.oNazwie('x'), Zmienna.oNazwie('z')))
+                                .zbuduj(),
+                        new BudowniczyBloku()
+                                .wypisz(Odejmowanie.odSiebie(Zmienna.oNazwie('x'), Zmienna.oNazwie('z')))
+                                .zbuduj()
+                )
+                .zbuduj();
+
+        program.wykonaj();
+
+        assertEquals("113", ciagNaWyjsciu
+                .toString().trim().replace("\n", "")
+                .replace("\r", "")
+                .replace("Program zakonczyl dzialanie.", ""));
+    }
+
+    @Test
+    public void TestWiekszeRowne2(){
+        Program program = new BudowniczyProgramu()
+                .zadeklarujZmienna('x', Modulo.z(Literal.oWartosci(2137), Literal.oWartosci(65)))
+                .zadeklarujZmienna('z', Literal.oWartosci(57))
+                .wywolajInstrukcjeIfElse(WiekszeRowne.coOdCzego(Zmienna.oNazwie('x'), Zmienna.oNazwie('z')),
+                        new BudowniczyBloku()
+                                .wypisz(Dodawanie.doSiebie(Zmienna.oNazwie('x'), Zmienna.oNazwie('z')))
+                                .zbuduj(),
+                        new BudowniczyBloku()
+                                .wypisz(Odejmowanie.odSiebie(Zmienna.oNazwie('x'), Zmienna.oNazwie('z')))
+                                .zbuduj()
+                )
+                .zbuduj();
+
+        program.wykonaj();
+
+        assertEquals("114", ciagNaWyjsciu
+                .toString().trim().replace("\n", "")
+                .replace("\r", "")
+                .replace("Program zakonczyl dzialanie.", ""));
+    }
 }
