@@ -5,7 +5,6 @@ import wyrazenia.Wyrazenie;
 import java.util.ArrayList;
 
 public class ListaWyrazen {
-
     private ListaWyrazen() {
 
     }
