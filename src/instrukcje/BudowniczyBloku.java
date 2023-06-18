@@ -2,6 +2,7 @@ package instrukcje;
 
 import porownania.Porownanie;
 import wyrazenia.Wyrazenie;
+import wyrazenia.Zmienna;
 
 import java.util.ArrayList;
 
@@ -16,17 +17,17 @@ public class BudowniczyBloku implements BudowniczyInstrukcji {
         return this;
     }
 
-    public BudowniczyBloku zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, Blok blok) {
+    public BudowniczyBloku zadeklarujProcedure(String nazwa, ArrayList<Zmienna> parametry, Blok blok) {
         deklaracje.add(new DeklaracjaProcedury(nazwa, parametry, blok.getDeklaracje(), blok.getInstrukcje()));
         return this;
     }
 
-    public BudowniczyBloku zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+    public BudowniczyBloku zadeklarujProcedure(String nazwa, ArrayList<Zmienna> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         deklaracje.add(new DeklaracjaProcedury(nazwa, parametry, deklaracje, instrukcje));
         return this;
     }
 
-    public BudowniczyBloku wywolajProcedure(char nazwa, ArrayList<Wyrazenie> parametry) {
+    public BudowniczyBloku wywolajProcedure(String nazwa, ArrayList<Wyrazenie> parametry) {
         instrukcje.add(new Procedura(nazwa, parametry));
         return this;
     }

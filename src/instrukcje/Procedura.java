@@ -20,9 +20,9 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     private Integer[] poziomZmiennych;
     private HashMap<String, Procedura> proceduryZProcedury;
 
-    protected Procedura(String nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+    protected Procedura(String nazwa, ArrayList<Zmienna> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         this.nazwa = nazwa;
-        this.parametryPrzekazane = parametry;
+        this.parametryZdefiniowane = parametry;
         this.deklaracje = deklaracje == null ? new ArrayList<Deklaracja>() : deklaracje;
         this.instrukcje = instrukcje;
     }
@@ -153,16 +153,9 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
                 throw new NiezadeklarowanaProcedura(nazwa);
             }
             else {
-
                 this.deklaracje = poprzednieProcedury.get(nazwa).deklaracje;
                 this.instrukcje = poprzednieProcedury.get(nazwa).instrukcje;
                 this.parametryZdefiniowane = poprzednieProcedury.get(nazwa).parametryZdefiniowane;
-
-
-                for (int i = 0; i < wartosciParametrow.size(); i++) {
-                    System.out.println(wartosciParametrow.get(i));
-                    //parametryZdefiniowane.get(i).setWartosc(wartosciParametrow.get(i));
-                }
             }
 
             for (Zmienna z : parametryZdefiniowane) {
@@ -177,7 +170,6 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
                     proceduryZProcedury[i] = new Procedura(nazwa);
                 }
                 else {
-                    this.poziomProcedur[i] = poprzedniPoziom[i] + 1;
                     proceduryZProcedury[i] = poprzednieProcedury[i];
                 }
             }

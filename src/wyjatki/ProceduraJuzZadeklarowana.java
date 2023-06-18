@@ -2,7 +2,7 @@ package wyjatki;
 
 public class ProceduraJuzZadeklarowana extends Throwable {
     private char nazwa;
-    public ProceduraJuzZadeklarowana(char nazwa) {
+    public ProceduraJuzZadeklarowana(String nazwa) {
         this.nazwa = nazwa;
     }
 

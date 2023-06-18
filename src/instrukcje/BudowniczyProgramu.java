@@ -2,6 +2,7 @@ package instrukcje;
 
 import porownania.Porownanie;
 import wyrazenia.Wyrazenie;
+import wyrazenia.Zmienna;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ public class BudowniczyProgramu implements BudowniczyInstrukcji {
         return this;
     }
 
-    public BudowniczyProgramu zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+    public BudowniczyProgramu zadeklarujProcedure(String nazwa, ArrayList<Zmienna> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         for (Deklaracja d : /*blok.getDeklaracje()*/ deklaracje) {
             d.wypisz(0);
         }
@@ -29,7 +30,7 @@ public class BudowniczyProgramu implements BudowniczyInstrukcji {
         return this;
     }
 
-    public BudowniczyProgramu zadeklarujProcedure(char nazwa, ArrayList<Wyrazenie> parametry, Blok blok) {
+    public BudowniczyProgramu zadeklarujProcedure(String nazwa, ArrayList<Zmienna> parametry, Blok blok) {
         for (Deklaracja d : blok.getDeklaracje()) {
             d.wypisz(0);
         }
@@ -42,7 +43,7 @@ public class BudowniczyProgramu implements BudowniczyInstrukcji {
         return this;
     }
 
-    public BudowniczyProgramu wywolajProcedure(char nazwa, ArrayList<Wyrazenie> parametry) {
+    public BudowniczyProgramu wywolajProcedure(String nazwa, ArrayList<Wyrazenie> parametry) {
         glowny.dodajInstrukcje(new Procedura(nazwa, parametry));
         glowny.zwiekszLiczbeInstrukcji();
         return this;

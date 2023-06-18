@@ -54,9 +54,8 @@ public class DeklaracjaProcedury extends Deklaracja {
 
     @Override
     protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych) throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
-        Procedura[] tablicaProcedurZBloku = stosProcedur.pop();
-        Integer[] poziomyProcedur = stosPoziomowProcedur.pop();
-        if(poziomyProcedur[nazwaJakoIndeks] == 0) {
+        HashMap<String, Procedura> mapaProcedurZBloku = stosProcedur.pop();
+        if(mapaProcedurZBloku.containsKey(this.nazwa)) {
             throw new ProceduraJuzZadeklarowana(this.nazwa);
         }
         else {
@@ -70,11 +69,8 @@ public class DeklaracjaProcedury extends Deklaracja {
             for(Instrukcja i :  instrukcje) {
                 i.wypisz(0);
             }
-            tablicaProcedurZBloku[nazwaJakoIndeks] = new Procedura(nazwa, parametry, deklaracje, instrukcje);
-            tablicaProcedurZBloku[nazwaJakoIndeks].wypisz(0);
-            poziomyProcedur[nazwaJakoIndeks] = 0;
-            stosProcedur.push(tablicaProcedurZBloku);
-            stosPoziomowProcedur.push(poziomyProcedur);
+            mapaProcedurZBloku.put(nazwa, new Procedura(nazwa, parametry, deklaracje, instrukcje));
+            stosProcedur.push(mapaProcedurZBloku);
         }
     }
 
