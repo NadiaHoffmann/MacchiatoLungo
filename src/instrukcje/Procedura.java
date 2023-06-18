@@ -73,7 +73,7 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
 
     @Override
     protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych)
-            throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, NiezadeklarowanaProcedura, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana {
+            throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
 
         for (Deklaracja dz : deklaracje) {
@@ -90,7 +90,7 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
 
     @Override
     protected void wykonajZOdpluskwiaczem(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
-            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana {
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
 
         for (Deklaracja dz : deklaracje) {
@@ -113,7 +113,7 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
 
     @Override
     protected void policzInstrukcjeWProgramie(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
-            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
+            throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         this.czescWspolna(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
 
         for (Deklaracja dz : deklaracje) {
@@ -149,13 +149,14 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
         else {
             HashMap<String,Procedura> poprzednieProcedury = stosProcedur.peek();
 
-            if (poprzednieProcedury. == -1) {
+            if (poprzednieProcedury == null || !poprzednieProcedury.containsKey(nazwa)) {
                 throw new NiezadeklarowanaProcedura(nazwa);
             }
             else {
-                this.deklaracje = poprzednieProcedury[nazwaJakoIndeks].deklaracje;
-                this.instrukcje = poprzednieProcedury[nazwaJakoIndeks].instrukcje;
-                this.parametryZdefiniowane = poprzednieProcedury[nazwaJakoIndeks].parametryZdefiniowane;
+
+                this.deklaracje = poprzednieProcedury.get(nazwa).deklaracje;
+                this.instrukcje = poprzednieProcedury.get(nazwa).instrukcje;
+                this.parametryZdefiniowane = poprzednieProcedury.get(nazwa).parametryZdefiniowane;
 
 
                 for (int i = 0; i < wartosciParametrow.size(); i++) {

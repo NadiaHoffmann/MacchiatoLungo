@@ -14,14 +14,14 @@ public class DeklaracjaProcedury extends Deklaracja {
     private ArrayList<Deklaracja> deklaracje;
     private ArrayList<Instrukcja> instrukcje;
 
-    protected DeklaracjaProcedury(char nazwa, ArrayList<Zmienna> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
+    protected DeklaracjaProcedury(String nazwa, ArrayList<Zmienna> parametry, ArrayList<Deklaracja> deklaracje, ArrayList<Instrukcja> instrukcje) {
         this.nazwa = nazwa;
         this.parametry = parametry;
         this.deklaracje = deklaracje;
         this.instrukcje = instrukcje;
     }
 
-    protected DeklaracjaProcedury(char nazwa, ArrayList<Zmienna> parametry, Blok blok) {
+    protected DeklaracjaProcedury(String nazwa, ArrayList<Zmienna> parametry, Blok blok) {
         this.nazwa = nazwa;
         this.parametry = parametry;
         this.deklaracje = blok.getDeklaracje();
@@ -53,12 +53,7 @@ public class DeklaracjaProcedury extends Deklaracja {
     }
 
     @Override
-    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych) throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana {
-        int nazwaJakoIndeks = this.nazwa - 'a';
-        if (nazwaJakoIndeks < ('a' - 'a') || nazwaJakoIndeks >= ('z' - 'a' + 1)) {
-            throw new NiepoprawnaNazwaProcedury(this.nazwa);
-        }
-
+    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych) throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         Procedura[] tablicaProcedurZBloku = stosProcedur.pop();
         Integer[] poziomyProcedur = stosPoziomowProcedur.pop();
         if(poziomyProcedur[nazwaJakoIndeks] == 0) {
@@ -84,12 +79,20 @@ public class DeklaracjaProcedury extends Deklaracja {
     }
 
     @Override
-    protected void wykonajZOdpluskwiaczem(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana {
-        this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+    protected void wykonajZOdpluskwiaczem(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
+        try {
+            this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+        } catch (NiezadeklarowanaProcedura niezadeklarowanaProcedura) {
+            throw new RuntimeException(niezadeklarowanaProcedura);
+        }
     }
 
     @Override
-    protected void policzInstrukcjeWProgramie(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiepoprawnaNazwaProcedury, ProceduraJuzZadeklarowana {
-        this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+    protected void policzInstrukcjeWProgramie(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
+        try {
+            this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+        } catch (NiezadeklarowanaProcedura niezadeklarowanaProcedura) {
+            throw new RuntimeException(niezadeklarowanaProcedura);
+        }
     }
 }

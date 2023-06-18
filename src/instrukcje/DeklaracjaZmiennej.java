@@ -1,9 +1,6 @@
 package instrukcje;
 
-import wyjatki.NiepoprawnaNazwaZmiennej;
-import wyjatki.NiezadeklarowanaZmienna;
-import wyjatki.ZmiennaJuzZadeklarowana;
-import wyjatki.NiepoprawnaWartoscZmiennej;
+import wyjatki.*;
 import wyrazenia.Wyrazenie;
 import wyrazenia.Zmienna;
 
@@ -25,7 +22,7 @@ public class DeklaracjaZmiennej extends Deklaracja implements ModyfikacjaZmienny
     }
 
     @Override
-    protected void wykonaj(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych) throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej {
+    protected void wykonaj(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych) throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         int nazwaJakoIndeks = this.nazwa - 'a';
         if (nazwaJakoIndeks < ('a' - 'a') || nazwaJakoIndeks >= ('z' - 'a' + 1)) {
             throw new NiepoprawnaNazwaZmiennej(this.nazwa);
@@ -50,12 +47,24 @@ public class DeklaracjaZmiennej extends Deklaracja implements ModyfikacjaZmienny
     }
 
     @Override
-    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna {
-        this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
+        try {
+            this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+        } catch (ProceduraJuzZadeklarowana proceduraJuzZadeklarowana) {
+            throw new RuntimeException(proceduraJuzZadeklarowana);
+        } catch (NiezadeklarowanaProcedura niezadeklarowanaProcedura) {
+            throw new RuntimeException(niezadeklarowanaProcedura);
+        }
     }
 
     @Override
-    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna {
-        this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz) throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
+        try {
+            this.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+        } catch (ProceduraJuzZadeklarowana proceduraJuzZadeklarowana) {
+            throw new RuntimeException(proceduraJuzZadeklarowana);
+        } catch (NiezadeklarowanaProcedura niezadeklarowanaProcedura) {
+            throw new RuntimeException(niezadeklarowanaProcedura);
+        }
     }
 }
