@@ -11,6 +11,8 @@ public class Program {
     private Stack <Zmienna[]> stosZmiennych;
     private Stack<HashMap<String, Procedura>> stosProcedur;
     private Stack <Integer[]> stosPoziomowZmiennych;
+    private Stack<HashMap<String, Integer>> stosPoziomowProcedur;
+
     protected Program(Blok glowny) {
         this.glowny = glowny;
     }
@@ -20,7 +22,9 @@ public class Program {
             this.stosZmiennych = new Stack<>();
             this.stosPoziomowZmiennych = new Stack<>();
             this.stosProcedur = new Stack<>();
-            glowny.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+            this.stosPoziomowProcedur = new Stack<>();
+
+            glowny.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
             System.out.println("Program zakonczyl dzialanie.");
         } catch (NiepoprawnaWartoscZmiennej e) {
             System.out.println("Niepoprawna wartosc zmiennej w wyrazeniu " + e.getWyrazenie() + ".");
@@ -58,12 +62,13 @@ public class Program {
             this.stosZmiennych = new Stack<>();
             this.stosProcedur = new Stack<>();
             this.stosPoziomowZmiennych = new Stack<>();
+            this.stosPoziomowProcedur = new Stack<>();
             Odpluskwiacz odpluskwiacz = new Odpluskwiacz();
 
             // policzInstrukcjeWProgramie wykonuje program, liczac kolejne kroki
-            glowny.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
+            glowny.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
             odpluskwiacz.zmniejszLicznikInstrukcjiWProgramie();
-            glowny.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
+            glowny.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
             System.out.println("Program zakonczyl dzialanie.");
         }
         catch (NiepoprawnaWartoscZmiennej e) {

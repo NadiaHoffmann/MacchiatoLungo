@@ -35,7 +35,7 @@ public class PetlaFor extends Instrukcja {
     }
 
     @Override
-    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych)
+    protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<HashMap<String, Integer>> stosPoziomowProcedur)
             throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
         int granica = wyrazenie.wartosc(stosZmiennych, stosPoziomowZmiennych);
         for (int i = 0; i < granica; i++) {
@@ -45,12 +45,12 @@ public class PetlaFor extends Instrukcja {
 
             ukrytaDeklaracjaZmiennej.add(zmiennaWPetli);
             Blok blok = new Blok(deklaracja, ukrytaDeklaracjaZmiennej, instrukcje);
-            blok.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych);
+            blok.wykonaj(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur);
         }
     }
 
     @Override
-    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
+    protected void wykonajZOdpluskwiaczem(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<HashMap<String, Integer>> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz)
             throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
         this.granica = wyrazenie.wartosc(stosZmiennych, stosPoziomowZmiennych);
         for (int i = 0; i < this.granica; i++) {
@@ -60,13 +60,13 @@ public class PetlaFor extends Instrukcja {
 
             ukrytaDeklaracjaZmiennej.add(zmiennaWPetli);
             Blok blok = new Blok(deklaracja, ukrytaDeklaracjaZmiennej, instrukcje);
-            blok.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
+            blok.wykonajZOdpluskwiaczem(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
         }
     }
 
 
     @Override
-    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Odpluskwiacz odpluskwiacz)
+    protected void policzInstrukcjeWProgramie(Stack <Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmiennych, Stack<HashMap<String, Integer>> stosPoziomowProcedur, Odpluskwiacz odpluskwiacz)
             throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow {
         this.granica = wyrazenie.wartosc(stosZmiennych, stosPoziomowZmiennych);
         for (int i = 0; i < this.granica; i++) {
@@ -76,7 +76,7 @@ public class PetlaFor extends Instrukcja {
 
             ukrytaDeklaracjaZmiennej.add(zmiennaWPetli);
             Blok blok = new Blok(deklaracja, ukrytaDeklaracjaZmiennej, instrukcje);
-            blok.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, odpluskwiacz);
+            blok.policzInstrukcjeWProgramie(stosZmiennych, stosProcedur, stosPoziomowZmiennych, stosPoziomowProcedur, odpluskwiacz);
         }
     }
 }
