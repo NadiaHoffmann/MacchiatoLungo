@@ -77,6 +77,8 @@ public class Procedura extends Instrukcja implements ModyfikacjaZmiennych {
     // czesc wspolna dla trzech powyzszych komend
     protected void wykonaj(Stack<Zmienna[]> stosZmiennych, Stack<HashMap<String, Procedura>> stosProcedur, Stack<Integer[]> stosPoziomowZmienych)
             throws NiepoprawnaWartoscZmiennej, NiepoprawnaNazwaZmiennej, ZmiennaJuzZadeklarowana, NiezadeklarowanaZmienna, NiezadeklarowanaProcedura, NiepoprawnaLiczbaParametrow, ProceduraJuzZadeklarowana {
+        this.wartosciParametrow = new ArrayList<>();
+
         if (stosProcedur.empty()) {
             throw new NiezadeklarowanaProcedura(nazwa);
         }
