@@ -47,7 +47,7 @@ public class Program {
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         } catch (NiezadeklarowanaProcedura e) {
-            System.out.println("Zmienna " + e.getNazwa() + " nie zostala zadeklarowana.");
+            System.out.println("Procedura " + e.getNazwa() + " nie zostala zadeklarowana.");
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         } catch (NiepoprawnaLiczbaParametrow e) {

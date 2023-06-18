@@ -144,6 +144,7 @@ public class Blok extends Instrukcja {
         stosZmiennych.pop();
         stosPoziomowZmiennych.pop();
         stosProcedur.pop();
+        stosPoziomowProcedur.pop();
     }
 
     @Override
@@ -167,6 +168,7 @@ public class Blok extends Instrukcja {
         stosZmiennych.pop();
         stosPoziomowZmiennych.pop();
         stosProcedur.pop();
+        stosPoziomowProcedur.pop();
     }
 
     @Override
@@ -187,5 +189,6 @@ public class Blok extends Instrukcja {
         stosZmiennych.pop();
         stosPoziomowZmiennych.pop();
         stosProcedur.pop();
+        stosPoziomowProcedur.pop();
     }
 }

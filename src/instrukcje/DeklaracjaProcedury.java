@@ -47,13 +47,14 @@ public class DeklaracjaProcedury extends Deklaracja {
             throws NiepoprawnaWartoscZmiennej, NiezadeklarowanaZmienna, ZmiennaJuzZadeklarowana, NiepoprawnaNazwaZmiennej, ProceduraJuzZadeklarowana, NiezadeklarowanaProcedura {
         HashMap<String, Procedura> mapaProcedurZBloku = stosProcedur.pop();
         HashMap<String, Integer> poziomyProcedur = stosPoziomowProcedur.pop();
-        if(poziomyProcedur.get(this.nazwa) == 0) {
+        if(poziomyProcedur.get(this.nazwa) != null && poziomyProcedur.get(this.nazwa) == 0) {
             throw new ProceduraJuzZadeklarowana(this.nazwa);
         }
         else {
             mapaProcedurZBloku.put(nazwa, new Procedura(nazwa, parametry, deklaracje, instrukcje));
             poziomyProcedur.put(nazwa, 0);
             stosProcedur.push(mapaProcedurZBloku);
+            stosPoziomowProcedur.push(poziomyProcedur);
         }
     }
 
