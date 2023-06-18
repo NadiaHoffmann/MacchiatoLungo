@@ -1,8 +1,8 @@
 package wyjatki;
 
-public class NiezadeklarowanaProcedura extends Throwable {
+public class NiepoprawnaLiczbaParametrow extends Throwable {
     private String nazwa;
-    public NiezadeklarowanaProcedura(String nazwa) {
+    public NiepoprawnaLiczbaParametrow(String nazwa) {
         this.nazwa = nazwa;
     }
 

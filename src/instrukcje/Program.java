@@ -58,6 +58,10 @@ public class Program {
             System.out.println("Zmienna " + e.getNazwa() + " nie zostala zadeklarowana.");
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
+        } catch (NiepoprawnaLiczbaParametrow e) {
+            System.out.println("Procedura " + e.getNazwa() + " zostala wywolana z niepoprawna liczba parametrow.");
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
+            System.exit(1);
         }
     };
 
@@ -98,6 +102,10 @@ public class Program {
             System.exit(1);
         } catch (NiezadeklarowanaProcedura e) {
             System.out.println("Procedura " + e.getNazwa() + " nie zostala zadeklarowana.");
+            this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
+            System.exit(1);
+        } catch (NiepoprawnaLiczbaParametrow e) {
+            System.out.println("Procedura " + e.getNazwa() + " zostala wywolana z niepoprawna liczba parametrow.");
             this.wypiszZmienne(stosZmiennych, stosPoziomowZmiennych);
             System.exit(1);
         }
